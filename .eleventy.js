@@ -1,4 +1,8 @@
 module.exports = function(eleventyConfig) {
+  // Filtro padStart
+  eleventyConfig.addFilter("padStart", function(value, targetLength, padString) {
+    return String(value).padStart(Number(targetLength), padString || " ");
+  });
   // Copia file statici
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/js");
