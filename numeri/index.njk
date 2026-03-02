@@ -1,0 +1,161 @@
+---
+layout: base.njk
+title: Numeri
+description: Archivio di tutti i numeri di LIMI. Magazine.
+---
+<style>
+.numeri-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 3rem;
+  padding-bottom: 6rem;
+}
+.numero-card {
+  background: var(--fog);
+  padding: 3rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: background 0.3s;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.numero-card:hover { background: #C8C1B3; }
+.numero-card.current {
+  background: var(--ink);
+  color: var(--cream);
+}
+.numero-card.current:hover { background: var(--deep); }
+
+.numero-bg {
+  position: absolute;
+  top: -1rem; right: -0.5rem;
+  font-family: var(--font-display);
+  font-size: 9rem;
+  font-weight: 900;
+  color: rgba(26,20,16,0.06);
+  line-height: 1;
+  pointer-events: none;
+}
+.numero-card.current .numero-bg { color: rgba(245,240,232,0.05); }
+
+.numero-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  margin-bottom: 0.5rem;
+}
+.numero-tema {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+.numero-anno {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  opacity: 0.35;
+  margin-bottom: 1.5rem;
+}
+.numero-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--rust);
+  color: var(--rust);
+  padding: 0.25rem 0.6rem;
+}
+.numero-card.current .numero-tag {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.numero-pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rust);
+  text-decoration: none;
+  margin-top: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.numero-pdf-link:hover { opacity: 1; }
+
+@media (max-width: 900px) {
+  .numeri-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="container">
+  <div class="page-intro">
+    <div class="page-intro-number">N°</div>
+    <h1 class="page-intro-title">Archivio<br><em>numeri</em></h1>
+    <p class="page-intro-desc">Ogni numero esplora un tema attraverso scrittura, illustrazione e fotografia. Un archivio di voci in divenire.</p>
+  </div>
+
+  <div class="numeri-grid">
+    {% if collections.numeri.length > 0 %}
+      {% for numero in collections.numeri %}
+        <a href="/numeri/{{ numero.data.slug }}/" class="numero-card reveal {% if loop.first %}current{% endif %}">
+          <div class="numero-bg">{{ numero.data.numero }}</div>
+          <div class="numero-label">N° {{ numero.data.numero | string | padStart(2,'0') }}</div>
+          <div class="numero-tema">{{ numero.data.tema }}</div>
+          <div class="numero-anno">{{ numero.data.anno }}</div>
+          {% if loop.first %}<div class="numero-tag">Numero corrente</div>{% endif %}
+          {% if numero.data.pdf %}
+            <a href="{{ numero.data.pdf }}" class="numero-pdf-link" target="_blank">↓ Scarica PDF</a>
+          {% endif %}
+        </a>
+      {% endfor %}
+    {% else %}
+      <!-- Fac simile numeri -->
+      <a href="#" class="numero-card current reveal">
+        <div class="numero-bg">05</div>
+        <div class="numero-label">N° 05</div>
+        <div class="numero-tema">Al Bar</div>
+        <div class="numero-anno">2025</div>
+        <div class="numero-tag">Numero corrente</div>
+      </a>
+      <a href="#" class="numero-card reveal">
+        <div class="numero-bg">04</div>
+        <div class="numero-label">N° 04</div>
+        <div class="numero-tema">Sapore</div>
+        <div class="numero-anno">2024</div>
+      </a>
+      <a href="#" class="numero-card reveal">
+        <div class="numero-bg">03</div>
+        <div class="numero-label">N° 03</div>
+        <div class="numero-tema">Apnea</div>
+        <div class="numero-anno">2024</div>
+      </a>
+      <a href="#" class="numero-card reveal">
+        <div class="numero-bg">02</div>
+        <div class="numero-label">N° 02</div>
+        <div class="numero-tema">Il Finale</div>
+        <div class="numero-anno">2024</div>
+      </a>
+      <a href="#" class="numero-card reveal">
+        <div class="numero-bg">01</div>
+        <div class="numero-label">N° 01</div>
+        <div class="numero-tema">Luce</div>
+        <div class="numero-anno">2023</div>
+      </a>
+    {% endif %}
+  </div>
+</div>

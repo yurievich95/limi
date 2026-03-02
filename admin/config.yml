@@ -3,28 +3,78 @@ backend:
   repo: yurievich95/limi
   branch: main
 
-media_folder: "images/uploads"
+site_url: https://grand-sunburst-fd821e.netlify.app
+display_url: https://grand-sunburst-fd821e.netlify.app
+
+media_folder: "src/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
+
   - name: "articoli"
-    label: "Articoli"
+    label: "📝 Articoli"
     folder: "_articoli"
     create: true
+    slug: "{{numero}}-{{slug}}"
     fields:
       - { label: "Titolo", name: "title", widget: "string" }
-      - { label: "Numero", name: "numero", widget: "string" }
+      - { label: "Numero", name: "numero", widget: "string", hint: "Es: 05" }
+      - { label: "Tema del numero", name: "tema", widget: "string", hint: "Es: Al Bar" }
       - { label: "Categoria", name: "categoria", widget: "select",
           options: ["Prosa", "Poesia", "Saggio", "Rubrica"] }
-      - { label: "Testo", name: "body", widget: "markdown" }
+      - { label: "Rubrica (solo se categoria = Rubrica)", name: "rubrica", widget: "string", required: false,
+          hint: "Es: In Limine" }
+      - { label: "Estratto / Incipit", name: "excerpt", widget: "text", required: false,
+          hint: "Breve testo di anteprima (2-3 righe)" }
+      - { label: "Testo dell'articolo", name: "body", widget: "markdown" }
+      - { label: "Layout", name: "layout", widget: "hidden", default: "articolo.njk" }
 
   - name: "galleria"
-    label: "Galleria"
+    label: "🖼 Galleria"
     folder: "_galleria"
     create: true
+    slug: "{{numero}}-{{slug}}"
     fields:
       - { label: "Titolo opera", name: "title", widget: "string" }
-      - { label: "Numero", name: "numero", widget: "string" }
+      - { label: "Numero", name: "numero", widget: "string", hint: "Es: 05" }
       - { label: "Tipo", name: "tipo", widget: "select",
           options: ["Illustrazione", "Fotografia", "Opera"] }
       - { label: "Immagine", name: "image", widget: "image" }
+      - { label: "Didascalia", name: "didascalia", widget: "string", required: false }
+
+  - name: "numeri"
+    label: "📖 Numeri"
+    folder: "_numeri"
+    create: true
+    slug: "{{numero}}-{{slug}}"
+    fields:
+      - { label: "Titolo (es: N°06)", name: "title", widget: "string" }
+      - { label: "Numero progressivo", name: "numero", widget: "number" }
+      - { label: "Slug URL (es: 06-titolo)", name: "slug", widget: "string" }
+      - { label: "Tema", name: "tema", widget: "string" }
+      - { label: "Anno", name: "anno", widget: "string" }
+      - { label: "Descrizione breve", name: "descrizione", widget: "text" }
+      - { label: "Link PDF (opzionale)", name: "pdf", widget: "string", required: false }
+      - { label: "Copertina (opzionale)", name: "copertina", widget: "image", required: false }
+
+  - name: "rubriche"
+    label: "📌 Rubriche"
+    folder: "_rubriche"
+    create: true
+    fields:
+      - { label: "Nome rubrica", name: "title", widget: "string" }
+      - { label: "Descrizione", name: "descrizione", widget: "text" }
+
+  - name: "autori"
+    label: "👤 Autori"
+    folder: "_autori"
+    create: true
+    fields:
+      - { label: "Nome completo", name: "title", widget: "string" }
+      - { label: "Tipo", name: "tipo", widget: "select",
+          options: ["Scrittore", "Illustratore", "Fotografo", "Poeta", "Redattore"] }
+      - { label: "Numeri a cui ha partecipato", name: "numeri", widget: "string",
+          hint: "Es: 01, 03, 05" }
+      - { label: "Bio breve", name: "bio", widget: "text", required: false }
+      - { label: "Instagram", name: "instagram", widget: "string", required: false }
+      - { label: "Layout", name: "layout", widget: "hidden", default: "base.njk" }

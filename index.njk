@@ -1,0 +1,452 @@
+---
+layout: base.njk
+title: Home
+---
+
+<style>
+/* HOME-SPECIFIC */
+.hero {
+  min-height: calc(100vh - var(--nav-height));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 5rem 3rem 5rem;
+}
+
+.hero-issue {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.hero-issue::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: var(--rust);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+}
+.hero-title em { color: var(--rust); font-style: italic; }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.65;
+  opacity: 0.65;
+  max-width: 380px;
+  margin-bottom: 3rem;
+}
+
+.hero-right {
+  background:
+    radial-gradient(ellipse 60% 80% at 60% 40%, rgba(184,75,42,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 30% 70%, rgba(200,169,110,0.08) 0%, transparent 60%),
+    linear-gradient(160deg, var(--fog) 0%, var(--cream) 50%, #EAE3D5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-art {
+  position: relative;
+  width: 280px;
+  height: 380px;
+}
+.cover-art::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 180px; height: 240px;
+  border: 1.5px solid rgba(26,20,16,0.18);
+  animation: drift 8s ease-in-out infinite;
+}
+.cover-art::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) rotate(10deg);
+  width: 160px; height: 220px;
+  border: 1px solid rgba(184,75,42,0.35);
+  animation: drift 8s ease-in-out infinite reverse;
+}
+.cover-fill {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 120px; height: 160px;
+  background: var(--rust);
+  opacity: 0.07;
+  animation: breathe 6s ease-in-out infinite;
+}
+.cover-num {
+  position: absolute;
+  bottom: 0; right: 0;
+  font-family: var(--font-display);
+  font-size: 7rem;
+  font-weight: 900;
+  color: rgba(26,20,16,0.05);
+  line-height: 1;
+}
+.cover-theme-label {
+  position: absolute;
+  bottom: 2rem; left: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--ink);
+  opacity: 0.3;
+}
+.cover-side-label {
+  position: absolute;
+  top: 2rem; left: -1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  writing-mode: vertical-rl;
+}
+
+@keyframes drift {
+  0%,100% { transform: translate(-50%,-50%) rotate(0deg); }
+  33% { transform: translate(-48%,-52%) rotate(3deg); }
+  66% { transform: translate(-52%,-48%) rotate(-2deg); }
+}
+@keyframes breathe {
+  0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.07; }
+  50% { transform: translate(-50%,-50%) scale(1.15); opacity: 0.12; }
+}
+
+/* ARTICLES GRID HOME */
+.home-articles {
+  padding: 5rem 0;
+}
+.articles-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1.5px;
+}
+.card-featured {
+  grid-row: span 2;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.card-featured .card-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+/* GALLERIA HOME */
+.home-gallery {
+  background: var(--deep);
+  padding: 5rem 0;
+}
+.home-gallery .section-title { color: var(--cream); }
+.home-gallery .section-link { color: var(--gold); border-color: var(--gold); }
+.gallery-grid-home {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5px;
+}
+
+/* RUBRICHE HOME */
+.home-rubriche {
+  padding: 5rem 0;
+}
+.rubriche-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  margin-top: 2.5rem;
+}
+.rubrica-item {
+  border-top: 1px solid rgba(26,20,16,0.15);
+  padding-top: 1.5rem;
+}
+.rubrica-n {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: rgba(26,20,16,0.06);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.rubrica-name {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.4rem;
+}
+.rubrica-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-style: italic;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+.rubrica-desc {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  opacity: 0.55;
+}
+
+/* COLLABORA HOME */
+.home-cta {
+  background: var(--rust);
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.home-cta::before {
+  content: 'LIMI.';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  font-family: var(--font-display);
+  font-size: 18vw;
+  font-weight: 900;
+  color: rgba(245,240,232,0.06);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.home-cta-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.55);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.home-cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  color: var(--cream);
+  margin-bottom: 1rem;
+  position: relative;
+}
+.home-cta-sub {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: rgba(245,240,232,0.7);
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+  position: relative;
+}
+.btn-cream {
+  color: var(--rust);
+  background: var(--cream);
+  position: relative;
+}
+.btn-cream:hover { background: var(--ink); color: var(--cream); }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .articles-grid { grid-template-columns: 1fr; }
+  .card-featured { grid-row: auto; }
+  .gallery-grid-home { grid-template-columns: repeat(2,1fr); }
+  .rubriche-list { grid-template-columns: 1fr; }
+}
+</style>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-issue">N° 05 — Al Bar — 2025</div>
+    <h1 class="hero-title">tra il<br><em>conosciuto</em><br>e l'ignoto.</h1>
+    <p class="hero-subtitle">Uno spazio di passaggio per giovani artisti in cerca della propria voce — scrittura, illustrazione, fotografia.</p>
+    <a href="/numeri/05-al-bar/" class="btn btn-dark">Leggi il numero</a>
+  </div>
+  <div class="hero-right">
+    <div class="cover-art">
+      <div class="cover-fill"></div>
+      <div class="cover-num">05</div>
+      <div class="cover-side-label">Limi. Magazine</div>
+      <div class="cover-theme-label">Al Bar</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    {% set items = ["Scrittura", "Illustrazione", "Fotografia", "Identità in divenire", "Spazio liminale", "Voci giovani", "Bimestrale", "Scrittura", "Illustrazione", "Fotografia", "Identità in divenire", "Spazio liminale", "Voci giovani", "Bimestrale"] %}
+    {% for item in items %}
+      <span class="marquee-item">{{ item }}</span>
+      <span class="marquee-item marquee-dot">◆</span>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ARTICOLI IN EVIDENZA -->
+<section class="home-articles">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Dal numero corrente</h2>
+      <a href="/articoli/" class="section-link">Tutti gli articoli</a>
+    </div>
+    <div class="articles-grid">
+      {% set articoliNumero = collections.articoli | byNumero("05") %}
+      {% if articoliNumero.length > 0 %}
+        {% for articolo in articoliNumero.slice(0, 5) %}
+          <a href="{{ articolo.url }}" class="card reveal {% if loop.first %}card-dark card-featured{% elif loop.index == 3 %}card-rust{% endif %}">
+            <div class="card-label">{{ articolo.data.categoria }} — N°{{ articolo.data.numero }}</div>
+            <div class="card-title">{{ articolo.data.title }}</div>
+            {% if articolo.data.excerpt %}
+              <div class="card-excerpt">{{ articolo.data.excerpt }}</div>
+            {% endif %}
+            <div class="card-arrow">↗</div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <!-- Fac simile articoli -->
+        <a href="#" class="card card-dark card-featured reveal">
+          <div class="card-label">Prosa — N°05</div>
+          <div class="card-title">Titolo dell'articolo in evidenza</div>
+          <div class="card-excerpt">Incipit dell'articolo che cattura il lettore e lo invita a continuare la lettura...</div>
+          <div class="card-arrow">↗</div>
+        </a>
+        <a href="#" class="card reveal">
+          <div class="card-label">Prosa — N°05</div>
+          <div class="card-title">Secondo articolo del numero</div>
+          <div class="card-excerpt">Breve estratto che introduce il pezzo...</div>
+          <div class="card-arrow">↗</div>
+        </a>
+        <a href="#" class="card card-rust reveal">
+          <div class="card-label">Rubrica — N°05</div>
+          <div class="card-title">Articolo dalla rubrica fissa</div>
+          <div class="card-excerpt">Estratto della rubrica...</div>
+          <div class="card-arrow">↗</div>
+        </a>
+        <a href="#" class="card reveal">
+          <div class="card-label">Saggio — N°05</div>
+          <div class="card-title">Quarto articolo del numero</div>
+          <div class="card-arrow">↗</div>
+        </a>
+        <a href="#" class="card reveal">
+          <div class="card-label">Poesia — N°05</div>
+          <div class="card-title">Quinto articolo del numero</div>
+          <div class="card-arrow">↗</div>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- GALLERIA -->
+<section class="home-gallery">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Galleria</h2>
+      <a href="/galleria/" class="section-link">Tutta la galleria</a>
+    </div>
+    <div class="gallery-grid-home">
+      {% set galleriaNumero = collections.galleria | byNumero("05") %}
+      {% if galleriaNumero.length > 0 %}
+        {% for opera in galleriaNumero.slice(0,4) %}
+          <a href="/galleria/" class="gallery-item reveal">
+            {% if opera.data.image %}
+              <img src="{{ opera.data.image }}" alt="{{ opera.data.title }}">
+            {% endif %}
+            <div class="gallery-overlay">
+              <div class="gallery-artist">{{ opera.data.tipo }}</div>
+              <div class="gallery-title">{{ opera.data.title }}</div>
+            </div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <!-- Fac simile galleria -->
+        {% for i in [1,2,3,4] %}
+        <div class="gallery-item reveal" style="background: linear-gradient({{ [135,160,200,220][loop.index0] }}deg, var(--deep) 0%, var(--rust) 60%, var(--gold) 100%);">
+          <div class="gallery-overlay">
+            <div class="gallery-artist">Illustrazione</div>
+            <div class="gallery-title">Opera N°{{ i }} — Al Bar</div>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- RUBRICHE -->
+<section class="home-rubriche">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Rubriche</h2>
+      <a href="/rubriche/" class="section-link">Tutte le rubriche</a>
+    </div>
+    <div class="rubriche-list">
+      {% if collections.rubriche.length > 0 %}
+        {% for rubrica in collections.rubriche %}
+          <a href="{{ rubrica.url }}" class="rubrica-item reveal" style="text-decoration:none;color:inherit;">
+            <div class="rubrica-n">{{ loop.index | string | padStart(2, '0') }}</div>
+            <div class="rubrica-name">Rubrica fissa</div>
+            <div class="rubrica-title">{{ rubrica.data.title }}</div>
+            <div class="rubrica-desc">{{ rubrica.data.descrizione }}</div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <!-- Fac simile rubriche -->
+        <div class="rubrica-item reveal">
+          <div class="rubrica-n">01</div>
+          <div class="rubrica-name">Rubrica fissa</div>
+          <div class="rubrica-title">In Limine</div>
+          <div class="rubrica-desc">Sulla soglia. Un diario che si forza di tenere, un esercizio di resistenza contro lo sconforto.</div>
+        </div>
+        <div class="rubrica-item reveal">
+          <div class="rubrica-n">02</div>
+          <div class="rubrica-name">Rubrica fissa</div>
+          <div class="rubrica-title">Parole al Centro</div>
+          <div class="rubrica-desc">La parola ricentrata nelle sue radici profonde — entità mobile in continua evoluzione.</div>
+        </div>
+        <div class="rubrica-item reveal">
+          <div class="rubrica-n">03</div>
+          <div class="rubrica-name">Rubrica fissa</div>
+          <div class="rubrica-title">Pennellate al Microscopio</div>
+          <div class="rubrica-desc">Arte e scienza in controluce. Pensatori di nicchia attraverso un'analisi emotiva e sensoriale.</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- COLLABORA CTA -->
+<section class="home-cta">
+  <div class="home-cta-label">Numero 06 — aperto alle collaborazioni</div>
+  <h2 class="home-cta-title">Vorresti partecipare?</h2>
+  <p class="home-cta-sub">Siamo aperti a scrittori, illustratori, fotografi, poeti. Se hai qualcosa da dire nello spazio del confine, vogliamo sentirti.</p>
+  <a href="/collabora/" class="btn btn-cream">Scrivici</a>
+</section>

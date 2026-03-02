@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} — {% endif %}LIMI. rivista di confine</title>
+  <meta name="description" content="{% if description %}{{ description }}{% else %}LIMI. è una rivista bimestrale per giovani artisti in ricerca identitaria — scrittura, illustrazione, fotografia.{% endif %}">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">LIMI<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="/manifesto/">Manifesto</a></li>
+    <li><a href="/numeri/">Numeri</a></li>
+    <li><a href="/articoli/">Articoli</a></li>
+    <li><a href="/galleria/">Galleria</a></li>
+    <li><a href="/rubriche/">Rubriche</a></li>
+    <li><a href="/collabora/" class="nav-numero">Collabora</a></li>
+  </ul>
+</nav>
+
+<!-- CONTENT -->
+<main class="page-wrap">
+  {{ content | safe }}
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">LIMI<span>.</span></div>
+        <p class="footer-tagline">Una rivista bimestrale per giovani artisti in continuo divenire — identità, confini, passaggi.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Contenuti</h4>
+          <ul>
+            <li><a href="/articoli/">Articoli</a></li>
+            <li><a href="/galleria/">Galleria</a></li>
+            <li><a href="/rubriche/">Rubriche</a></li>
+            <li><a href="/numeri/">Archivio</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Rivista</h4>
+          <ul>
+            <li><a href="/manifesto/">Chi siamo</a></li>
+            <li><a href="/manifesto/">Manifesto</a></li>
+            <li><a href="/collabora/">Collabora</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Segui</h4>
+          <ul>
+            <li><a href="https://www.instagram.com/limimagazine" target="_blank">Instagram</a></li>
+            <li><a href="https://www.youtube.com/channel/UCPjxpD75tlg2Y8JiDYSnneA" target="_blank">YouTube</a></li>
+            <li><a href="https://www.tiktok.com/@limimagazine" target="_blank">TikTok</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 LIMI. Magazine — tutti i diritti riservati</div>
+      <div class="social-links">
+        <a href="https://www.instagram.com/limimagazine" target="_blank">IG</a>
+        <a href="https://www.youtube.com/channel/UCPjxpD75tlg2Y8JiDYSnneA" target="_blank">YT</a>
+        <a href="https://www.tiktok.com/@limimagazine" target="_blank">TK</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

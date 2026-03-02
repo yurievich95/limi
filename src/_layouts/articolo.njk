@@ -1,0 +1,181 @@
+---
+layout: base.njk
+---
+<style>
+.article-layout {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 0;
+  padding-bottom: 8rem;
+}
+.article-sidebar-left {
+  padding: 5rem 2rem 0 0;
+  position: sticky;
+  top: 6rem;
+  height: fit-content;
+}
+.article-sidebar-right {
+  padding: 5rem 0 0 3rem;
+  border-left: 1px solid rgba(26,20,16,0.08);
+  position: sticky;
+  top: 6rem;
+  height: fit-content;
+}
+.sidebar-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 1rem;
+}
+.sidebar-value {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 2rem;
+}
+.sidebar-numero {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(26,20,16,0.06);
+  line-height: 1;
+}
+
+.article-content {
+  padding: 5rem 3rem 0;
+  border-right: 1px solid rgba(26,20,16,0.08);
+}
+
+.article-breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.article-breadcrumb a {
+  color: var(--rust);
+  text-decoration: none;
+}
+.article-breadcrumb span { opacity: 0.4; }
+
+.article-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+.article-intro {
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--deep);
+  opacity: 0.7;
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(26,20,16,0.1);
+  max-width: 560px;
+}
+
+.next-prev {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(26,20,16,0.1);
+}
+.next-prev-link {
+  background: var(--fog);
+  padding: 2rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s;
+}
+.next-prev-link:hover { background: #C8C1B3; }
+.next-prev-dir {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.5rem;
+}
+.next-prev-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .article-layout { grid-template-columns: 1fr; }
+  .article-sidebar-left, .article-sidebar-right { display: none; }
+  .article-content { padding: 2rem 0; border: none; }
+}
+</style>
+
+<div class="container">
+  <div class="article-layout">
+
+    <div class="article-sidebar-left">
+      <div class="sidebar-label">Numero</div>
+      <div class="sidebar-value">N°{{ numero }} — {{ tema }}</div>
+      <div class="sidebar-label">Categoria</div>
+      <div class="sidebar-value">{{ categoria }}</div>
+      <div class="sidebar-numero">{{ numero }}</div>
+      <div style="margin-top:2rem;">
+        <a href="/articoli/" class="btn btn-outline" style="font-size:0.55rem;padding:0.6rem 1.2rem;">← Tutti gli articoli</a>
+      </div>
+    </div>
+
+    <div class="article-content">
+      <div class="article-breadcrumb">
+        <a href="/articoli/">Articoli</a>
+        <span>/</span>
+        <a href="/numeri/">N°{{ numero }}</a>
+        <span>/</span>
+        {{ title }}
+      </div>
+
+      <h1 class="article-title">{{ title }}</h1>
+
+      {% if excerpt %}
+        <p class="article-intro">{{ excerpt }}</p>
+      {% endif %}
+
+      <div class="article-body">
+        {{ content | safe }}
+      </div>
+
+      <div class="next-prev">
+        <a href="/articoli/" class="next-prev-link">
+          <div class="next-prev-dir">← Precedente</div>
+          <div class="next-prev-title">Articolo precedente</div>
+        </a>
+        <a href="/articoli/" class="next-prev-link" style="text-align:right;">
+          <div class="next-prev-dir">Successivo →</div>
+          <div class="next-prev-title">Articolo successivo</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="article-sidebar-right">
+      <div class="sidebar-label">Dal numero</div>
+      <div class="sidebar-value" style="font-size:0.9rem;font-style:normal;font-family:var(--font-mono);letter-spacing:0.05em;">N°{{ numero }} — {{ tema }}</div>
+      <div style="margin-top:1rem;">
+        <a href="/numeri/" style="font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--rust);text-decoration:none;border-bottom:1px solid currentColor;">Esplora il numero →</a>
+      </div>
+    </div>
+
+  </div>
+</div>

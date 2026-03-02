@@ -1,0 +1,266 @@
+---
+layout: base.njk
+title: Collabora
+description: Partecipa al prossimo numero di LIMI. Magazine — scrittori, illustratori, fotografi.
+---
+<style>
+.collabora-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: calc(100vh - var(--nav-height));
+}
+.collabora-left {
+  background: var(--ink);
+  padding: 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.collabora-left::before {
+  content: 'LIMI.';
+  position: absolute;
+  bottom: -2rem; right: -1rem;
+  font-family: var(--font-display);
+  font-size: 12rem;
+  font-weight: 900;
+  color: rgba(245,240,232,0.04);
+  pointer-events: none;
+}
+.collabora-left-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+}
+.collabora-left-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem,4vw,3.5rem);
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.collabora-left-title em { color: var(--rust); }
+.collabora-left-desc {
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(245,240,232,0.6);
+  line-height: 1.7;
+  max-width: 400px;
+  position: relative;
+}
+.collabora-tipi {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  position: relative;
+}
+.collabora-tipo {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.35);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.collabora-tipo::before {
+  content: '◆';
+  color: var(--rust);
+  font-size: 0.4rem;
+}
+
+.collabora-right {
+  padding: 5rem 4rem;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.form-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-bottom: 2.5rem;
+  color: var(--ink);
+}
+
+/* FORM STYLES */
+.form-group {
+  margin-bottom: 1.8rem;
+}
+.form-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.6rem;
+}
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(26,20,16,0.2);
+  padding: 0.6rem 0;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--rust);
+}
+.form-textarea {
+  resize: none;
+  height: 120px;
+  font-style: italic;
+}
+.form-select { cursor: none; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.form-submit {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.form-note {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  color: var(--mid);
+  opacity: 0.6;
+}
+
+.form-success {
+  display: none;
+  background: var(--fog);
+  padding: 2rem;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+.form-success p {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .collabora-layout { grid-template-columns: 1fr; }
+  .collabora-left { padding: 4rem 1.5rem; }
+  .collabora-right { padding: 4rem 1.5rem; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+}
+</style>
+
+<div class="collabora-layout">
+  <div class="collabora-left">
+    <div class="collabora-left-label">Numero 06 — aperto</div>
+    <h1 class="collabora-left-title">Vuoi far parte<br>di <em>LIMI.</em>?</h1>
+    <p class="collabora-left-desc">Siamo una rivista aperta. Se hai qualcosa da dire nello spazio del confine, vogliamo sentirti.</p>
+    <div class="collabora-tipi">
+      <div class="collabora-tipo">Scrittura — prosa, poesia, saggio</div>
+      <div class="collabora-tipo">Illustrazione — digitale o tradizionale</div>
+      <div class="collabora-tipo">Fotografia — analogica o digitale</div>
+      <div class="collabora-tipo">Rubriche — proposte di serie fisse</div>
+    </div>
+  </div>
+
+  <div class="collabora-right">
+    <div class="form-title">Raccontaci di te.</div>
+
+    <!-- Formspree: sostituisci YOUR_FORM_ID con il tuo ID da formspree.io -->
+    <form id="collabora-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="nome">Nome</label>
+          <input class="form-input" type="text" id="nome" name="nome" required placeholder="Il tuo nome">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cognome">Cognome</label>
+          <input class="form-input" type="text" id="cognome" name="cognome" required placeholder="Il tuo cognome">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-input" type="email" id="email" name="email" required placeholder="tua@email.com">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="tipo">Cosa vorresti proporre?</label>
+        <select class="form-select" id="tipo" name="tipo">
+          <option value="">Scegli una categoria</option>
+          <option value="scrittura">Scrittura</option>
+          <option value="illustrazione">Illustrazione</option>
+          <option value="fotografia">Fotografia</option>
+          <option value="rubrica">Proposta rubrica</option>
+          <option value="altro">Altro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="messaggio">Raccontaci di te</label>
+        <textarea class="form-textarea" id="messaggio" name="messaggio" required placeholder="Chi sei, cosa fai, cosa vorresti portare a LIMI..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="portfolio">Link portfolio / Instagram (opzionale)</label>
+        <input class="form-input" type="url" id="portfolio" name="portfolio" placeholder="https://...">
+      </div>
+
+      <div class="form-submit">
+        <button type="submit" class="btn btn-dark">Invia</button>
+        <span class="form-note">Ti risponderemo entro una settimana.</span>
+      </div>
+
+    </form>
+
+    <div class="form-success" id="form-success">
+      <p>Grazie! Ti risponderemo presto.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById('collabora-form');
+if (form) {
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const data = new FormData(form);
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+      form.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }
+  });
+}
+</script>

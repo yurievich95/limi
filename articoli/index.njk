@@ -1,0 +1,146 @@
+---
+layout: base.njk
+title: Articoli
+description: Tutti gli articoli pubblicati su LIMI. Magazine.
+---
+<style>
+.articoli-filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(26,20,16,0.2);
+  color: var(--mid);
+  background: none;
+  padding: 0.4rem 1rem;
+  cursor: none;
+  transition: all 0.2s;
+}
+.filter-btn.active,
+.filter-btn:hover {
+  border-color: var(--rust);
+  color: var(--rust);
+  background: rgba(184,75,42,0.05);
+}
+
+.articoli-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5px;
+  padding-bottom: 6rem;
+}
+.articolo-row {
+  background: var(--fog);
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2rem;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.25s;
+}
+.articolo-row:hover { background: #C8C1B3; }
+.articolo-numero {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(26,20,16,0.08);
+  line-height: 1;
+  width: 3rem;
+  text-align: right;
+}
+.articolo-info {}
+.articolo-cat {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.4rem;
+}
+.articolo-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-style: italic;
+  line-height: 1.25;
+  margin-bottom: 0.4rem;
+}
+.articolo-excerpt {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  opacity: 0.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.articolo-arrow {
+  font-size: 1rem;
+  opacity: 0.2;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.articolo-row:hover .articolo-arrow {
+  opacity: 0.6;
+  transform: translate(3px,-3px);
+}
+
+@media (max-width: 900px) {
+  .articoli-list { grid-template-columns: 1fr; }
+  .articolo-row { grid-template-columns: 1fr auto; }
+  .articolo-numero { display: none; }
+}
+</style>
+
+<div class="container">
+  <div class="page-intro">
+    <div class="page-intro-number">Ag</div>
+    <h1 class="page-intro-title">Gli<br><em>articoli</em></h1>
+    <p class="page-intro-desc">Prosa, poesia, saggi e rubriche. Tutti i contributi pubblicati nei numeri di LIMI.</p>
+  </div>
+
+  <div class="articoli-filters">
+    <button class="filter-btn active">Tutti</button>
+    <button class="filter-btn">Prosa</button>
+    <button class="filter-btn">Poesia</button>
+    <button class="filter-btn">Saggio</button>
+    <button class="filter-btn">Rubrica</button>
+  </div>
+
+  <div class="articoli-list">
+    {% if collections.articoli.length > 0 %}
+      {% for articolo in collections.articoli %}
+        <a href="{{ articolo.url }}" class="articolo-row reveal">
+          <div class="articolo-numero">{{ articolo.data.numero }}</div>
+          <div class="articolo-info">
+            <div class="articolo-cat">{{ articolo.data.categoria }}</div>
+            <div class="articolo-title">{{ articolo.data.title }}</div>
+            {% if articolo.data.excerpt %}
+              <div class="articolo-excerpt">{{ articolo.data.excerpt }}</div>
+            {% endif %}
+          </div>
+          <div class="articolo-arrow">↗</div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <!-- Fac simile -->
+      {% for i in range(1, 9) %}
+      <a href="#" class="articolo-row reveal">
+        <div class="articolo-numero">05</div>
+        <div class="articolo-info">
+          <div class="articolo-cat">Prosa</div>
+          <div class="articolo-title">Titolo articolo fac simile numero {{ i }}</div>
+          <div class="articolo-excerpt">Incipit dell'articolo che introduce il pezzo e cattura il lettore...</div>
+        </div>
+        <div class="articolo-arrow">↗</div>
+      </a>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

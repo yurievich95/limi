@@ -1,0 +1,101 @@
+---
+layout: base.njk
+title: Autori
+description: I collaboratori di LIMI. Magazine — scrittori, illustratori, fotografi.
+---
+<style>
+.autori-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding-bottom: 6rem;
+  margin-top: 3rem;
+}
+.autore-card {
+  background: var(--fog);
+  padding: 2.5rem 2rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.autore-card:hover { background: #C8C1B3; }
+.autore-initials {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: rgba(26,20,16,0.07);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.autore-tipo {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.4rem;
+}
+.autore-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-bottom: 0.6rem;
+}
+.autore-numeri {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  color: var(--mid);
+  opacity: 0.6;
+}
+.autore-arrow {
+  position: absolute;
+  bottom: 1.5rem; right: 1.5rem;
+  opacity: 0.15;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.autore-card:hover .autore-arrow {
+  opacity: 0.5;
+  transform: translate(2px,-2px);
+}
+
+@media (max-width: 900px) {
+  .autori-grid { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+
+<div class="container">
+  <div class="page-intro">
+    <div class="page-intro-number">Au</div>
+    <h1 class="page-intro-title">I nostri<br><em>autori</em></h1>
+    <p class="page-intro-desc">Le voci che hanno contribuito a LIMI. — scrittori, illustratori, fotografi, poeti.</p>
+  </div>
+
+  <div class="autori-grid">
+    {% if collections.autori.length > 0 %}
+      {% for autore in collections.autori %}
+        <a href="{{ autore.url }}" class="autore-card reveal">
+          <div class="autore-initials">{{ autore.data.title | truncate(2, true, '') }}</div>
+          <div class="autore-tipo">{{ autore.data.tipo }}</div>
+          <div class="autore-name">{{ autore.data.title }}</div>
+          <div class="autore-numeri">Numeri: {{ autore.data.numeri }}</div>
+          <div class="autore-arrow">↗</div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <!-- Fac simile -->
+      {% for i in range(1, 10) %}
+      <div class="autore-card reveal">
+        <div class="autore-initials">NN</div>
+        <div class="autore-tipo">Scrittore/Illustratore</div>
+        <div class="autore-name">Nome Autore {{ i }}</div>
+        <div class="autore-numeri">Numeri: 01, 02, 05</div>
+        <div class="autore-arrow">↗</div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

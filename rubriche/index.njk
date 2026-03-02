@@ -1,0 +1,185 @@
+---
+layout: base.njk
+title: Rubriche
+description: Le rubriche fisse di LIMI. Magazine.
+---
+<style>
+.rubriche-full {
+  padding-bottom: 8rem;
+}
+.rubrica-block {
+  border-top: 1px solid rgba(26,20,16,0.1);
+  padding: 4rem 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 5rem;
+  align-items: start;
+}
+.rubrica-block:last-child { border-bottom: 1px solid rgba(26,20,16,0.1); }
+
+.rubrica-left {}
+.rubrica-index {
+  font-family: var(--font-display);
+  font-size: 6rem;
+  font-weight: 900;
+  color: rgba(26,20,16,0.05);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.rubrica-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.5rem;
+}
+.rubrica-big-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.rubrica-bio {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.55;
+  margin-bottom: 1.5rem;
+}
+.rubrica-right {}
+.rubrica-episodi {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+}
+.episodio-link {
+  background: var(--fog);
+  padding: 1.8rem 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s;
+}
+.episodio-link:hover { background: #C8C1B3; }
+.episodio-num {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--rust);
+  width: 2rem;
+}
+.episodio-tema {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.3rem;
+}
+.episodio-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.2;
+}
+.episodio-arrow {
+  opacity: 0.2;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.episodio-link:hover .episodio-arrow {
+  opacity: 0.5;
+  transform: translate(2px,-2px);
+}
+
+@media (max-width: 900px) {
+  .rubrica-block { grid-template-columns: 1fr; gap: 2rem; }
+}
+</style>
+
+<div class="container">
+  <div class="page-intro">
+    <div class="page-intro-number">Rb</div>
+    <h1 class="page-intro-title">Le<br><em>rubriche</em></h1>
+    <p class="page-intro-desc">Voci ricorrenti che attraversano i numeri. Ogni rubrica è uno spazio fisso affidato a un autore.</p>
+  </div>
+
+  <div class="rubriche-full">
+    {% if collections.rubriche.length > 0 %}
+      {% for rubrica in collections.rubriche %}
+        <div class="rubrica-block reveal">
+          <div class="rubrica-left">
+            <div class="rubrica-index">{{ loop.index | string | padStart(2,'0') }}</div>
+            <div class="rubrica-label">Rubrica fissa</div>
+            <div class="rubrica-big-title">{{ rubrica.data.title }}</div>
+            <p class="rubrica-bio">{{ rubrica.data.descrizione }}</p>
+            <a href="{{ rubrica.url }}" class="btn btn-outline" style="font-size:0.55rem;padding:0.6rem 1.2rem;">Esplora →</a>
+          </div>
+          <div class="rubrica-right">
+            <div class="rubrica-episodi">
+              {% set episodi = collections.articoli | byRubrica(rubrica.data.title) %}
+              {% for ep in episodi %}
+                <a href="{{ ep.url }}" class="episodio-link">
+                  <div class="episodio-num">N°{{ ep.data.numero }}</div>
+                  <div>
+                    <div class="episodio-tema">{{ ep.data.tema }}</div>
+                    <div class="episodio-title">{{ ep.data.title }}</div>
+                  </div>
+                  <div class="episodio-arrow">↗</div>
+                </a>
+              {% else %}
+                <!-- Fac simile episodi -->
+                {% for i in [1,2,3,4,5] %}
+                <a href="#" class="episodio-link">
+                  <div class="episodio-num">N°0{{ i }}</div>
+                  <div>
+                    <div class="episodio-tema">Tema del numero</div>
+                    <div class="episodio-title">Titolo episodio fac simile</div>
+                  </div>
+                  <div class="episodio-arrow">↗</div>
+                </a>
+                {% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <!-- Fac simile 3 rubriche -->
+      {% set rubriche_fs = [
+        { "n": "01", "nome": "In Limine", "desc": "Sulla soglia. Un diario che si forza di tenere, un'ode alla seconda pubertà. Un esercizio di resistenza contro lo sconforto, un contenitore per le scintille di speranza." },
+        { "n": "02", "nome": "Parole al Centro", "desc": "La parola ricentrata nelle sue radici profonde, per dischiudere la sua natura di entità mobile ed in continua evoluzione — proprio come l'essere umano." },
+        { "n": "03", "nome": "Pennellate al Microscopio", "desc": "Arte e Scienza in Controluce. Pensatori di nicchia che hanno rivoluzionato il mondo della ricerca attraverso un'analisi emotiva e sensoriale." }
+      ] %}
+      {% for r in rubriche_fs %}
+      <div class="rubrica-block reveal">
+        <div class="rubrica-left">
+          <div class="rubrica-index">{{ r.n }}</div>
+          <div class="rubrica-label">Rubrica fissa</div>
+          <div class="rubrica-big-title">{{ r.nome }}</div>
+          <p class="rubrica-bio">{{ r.desc }}</p>
+          <a href="#" class="btn btn-outline" style="font-size:0.55rem;padding:0.6rem 1.2rem;">Esplora →</a>
+        </div>
+        <div class="rubrica-right">
+          <div class="rubrica-episodi">
+            {% for i in [1,2,3,4,5] %}
+            <a href="#" class="episodio-link">
+              <div class="episodio-num">N°0{{ i }}</div>
+              <div>
+                <div class="episodio-tema">Tema del numero</div>
+                <div class="episodio-title">Titolo episodio fac simile</div>
+              </div>
+              <div class="episodio-arrow">↗</div>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

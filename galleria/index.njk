@@ -1,0 +1,130 @@
+---
+layout: base.njk
+title: Galleria
+description: Illustrazioni, fotografie e opere visive pubblicate su LIMI. Magazine.
+---
+<style>
+.gallery-masonry {
+  columns: 3;
+  column-gap: 1.5px;
+  padding-bottom: 6rem;
+}
+.gallery-masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5px;
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+}
+.gallery-masonry-item img {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.gallery-masonry-item:hover img { transform: scale(1.03); }
+
+/* Placeholder colorato quando non c'è immagine */
+.gallery-placeholder {
+  width: 100%;
+  display: block;
+}
+
+.gallery-masonry-item .gallery-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(transparent, rgba(26,20,16,0.85));
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+.gallery-masonry-item:hover .gallery-overlay { transform: translateY(0); }
+
+.gallery-filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(26,20,16,0.2);
+  color: var(--mid);
+  background: none;
+  padding: 0.4rem 1rem;
+  cursor: none;
+  transition: all 0.2s;
+}
+.filter-btn.active,
+.filter-btn:hover {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+@media (max-width: 900px) {
+  .gallery-masonry { columns: 2; }
+}
+@media (max-width: 600px) {
+  .gallery-masonry { columns: 1; }
+}
+</style>
+
+<div class="container">
+  <div class="page-intro">
+    <div class="page-intro-number">Gl</div>
+    <h1 class="page-intro-title">La<br><em>galleria</em></h1>
+    <p class="page-intro-desc">Illustrazioni, fotografie e opere visive. Lo sguardo degli artisti che collaborano con LIMI.</p>
+  </div>
+
+  <div class="gallery-filters">
+    <button class="filter-btn active">Tutto</button>
+    <button class="filter-btn">Illustrazione</button>
+    <button class="filter-btn">Fotografia</button>
+    <button class="filter-btn">Opera</button>
+  </div>
+
+  <div class="gallery-masonry">
+    {% if collections.galleria.length > 0 %}
+      {% for opera in collections.galleria %}
+        <div class="gallery-masonry-item reveal">
+          {% if opera.data.image %}
+            <img src="{{ opera.data.image }}" alt="{{ opera.data.title }}">
+          {% else %}
+            <div class="gallery-placeholder" style="aspect-ratio:{{ [3/4, 1, 4/5, 2/3][loop.index0 % 4] }};background:linear-gradient({{ [135,160,190,220][loop.index0 % 4] }}deg,var(--deep) 0%,var(--rust) 60%,var(--gold) 100%);"></div>
+          {% endif %}
+          <div class="gallery-overlay">
+            <div class="gallery-artist">{{ opera.data.tipo }} — N°{{ opera.data.numero }}</div>
+            <div class="gallery-title">{{ opera.data.title }}</div>
+            {% if opera.data.didascalia %}
+              <p style="font-size:0.8rem;color:rgba(245,240,232,0.6);margin-top:0.3rem;font-style:italic;">{{ opera.data.didascalia }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <!-- Fac simile: 8 opere con proporzioni variate -->
+      {% set heights = ["aspect-ratio:3/4","aspect-ratio:1/1","aspect-ratio:2/3","aspect-ratio:4/5","aspect-ratio:3/4","aspect-ratio:1/1","aspect-ratio:3/5","aspect-ratio:4/3"] %}
+      {% set gradients = [
+        "135deg,#2C1F14 0%,#B84B2A 60%,#C8A96E 100%",
+        "160deg,#1A1410 0%,#8C7B6B 100%",
+        "200deg,#D9D2C5 0%,#B84B2A 50%,#1A1410 100%",
+        "110deg,#C8A96E 0%,#2C1F14 70%",
+        "145deg,#B84B2A 0%,#1A1410 80%",
+        "170deg,#F5F0E8 0%,#8C7B6B 60%,#2C1F14 100%",
+        "120deg,#2C1F14 0%,#C8A96E 100%",
+        "190deg,#1A1410 0%,#B84B2A 40%,#D9D2C5 100%"
+      ] %}
+      {% for i in range(0, 8) %}
+      <div class="gallery-masonry-item reveal">
+        <div style="{{ heights[i] }};background:linear-gradient({{ gradients[i] }});display:block;width:100%;"></div>
+        <div class="gallery-overlay">
+          <div class="gallery-artist">Illustrazione — N°05</div>
+          <div class="gallery-title">Opera fac simile {{ i + 1 }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

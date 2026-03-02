@@ -1,0 +1,199 @@
+---
+layout: base.njk
+title: Manifesto
+description: Chi è LIMI. e perché esiste — il manifesto della rivista.
+---
+<style>
+.manifesto-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6rem;
+  padding: 6rem 0 8rem;
+  align-items: start;
+}
+.manifesto-sidebar {
+  position: sticky;
+  top: 6rem;
+}
+.manifesto-sidebar-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.manifesto-sidebar-label::before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 50px;
+  background: var(--rust);
+}
+.manifesto-big-n {
+  font-family: var(--font-display);
+  font-size: 9rem;
+  font-weight: 900;
+  color: rgba(26,20,16,0.05);
+  line-height: 1;
+  margin-top: 3rem;
+}
+.manifesto-nav {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.manifesto-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.manifesto-nav a:hover { color: var(--rust); }
+
+.manifesto-body h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  margin-bottom: 2.5rem;
+  color: var(--ink);
+}
+.manifesto-body p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--deep);
+  opacity: 0.8;
+  margin-bottom: 1.5rem;
+  max-width: 640px;
+}
+.manifesto-body p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  font-weight: 900;
+  float: left;
+  line-height: 0.75;
+  margin-right: 0.12em;
+  margin-top: 0.1em;
+  color: var(--rust);
+}
+.kw { font-style: italic; color: var(--rust); font-weight: 400; }
+
+.team-section {
+  background: var(--fog);
+  padding: 5rem 0;
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 3rem;
+}
+.team-card {
+  background: var(--cream);
+  padding: 2.5rem 2rem;
+  border-top: 2px solid var(--rust);
+}
+.team-role {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.5rem;
+}
+.team-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-style: italic;
+  margin-bottom: 0.8rem;
+}
+.team-bio {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  opacity: 0.6;
+}
+
+@media (max-width: 900px) {
+  .manifesto-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .manifesto-sidebar { position: static; }
+  .team-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="container">
+  <div class="manifesto-grid">
+    <div class="manifesto-sidebar reveal">
+      <div class="manifesto-sidebar-label">Chi siamo</div>
+      <div class="manifesto-big-n">01</div>
+      <nav class="manifesto-nav">
+        <a href="#origine">L'origine</a>
+        <a href="#concetto">Il concetto</a>
+        <a href="#missione">La missione</a>
+      </nav>
+    </div>
+
+    <div class="manifesto-body">
+      <h2 id="origine">Uno spazio tra due stadi dell'essere.</h2>
+
+      <p>
+        <span class="kw">Limi.</span> nasce dall'esigenza di dare voce alla sospensione, al momento cristallizzato tra passato e futuro, in un continuo processo di ricerca identitaria.
+      </p>
+
+      <p id="concetto">
+        Evocando il concetto di <span class="kw">liminale</span> — di quel "limbo" che si trova tra due stadi — Limi. si propone di dare voce a giovani artisti nella loro ricerca identitaria. Un'esplorazione del concetto di transizione, di "spazio intermedio", nell'idea che l'identità non sia mai fissa, ma sempre in evoluzione.
+      </p>
+
+      <p>
+        Per la creazione del progetto abbiamo esplorato il concetto di transizione, di "spazio intermedio", e l'idea che l'identità non sia mai fissa, ma sempre in evoluzione, in un percorso di autodeterminazione.
+      </p>
+
+      <p id="missione">
+        Limi. evoca l'idea di un <span class="kw">passaggio in atto</span>, di un movimento continuo tra mondi diversi, tra il conosciuto e l'ignoto, tra l'individuo e la collettività. Spazi in divenire, incertezze e potenzialità creative.
+      </p>
+
+      <p>
+        In questo progetto, c'è l'intenzione di restituire la libertà di esplorare, di sperimentare e di creare senza confini definiti. Limi. è una porta aperta. Un invito a percorrere un viaggio artistico e identitario in continuo mutamento.
+      </p>
+
+      <div style="margin-top: 3rem;">
+        <a href="/collabora/" class="btn btn-dark">Collabora con noi</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<section class="team-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">La redazione</h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-role">Fondatrice & Direttrice</div>
+        <div class="team-name">Nome Cognome</div>
+        <p class="team-bio">Breve bio della persona. Cosa fa, cosa ama, perché ha fondato LIMI.</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-role">Art Director</div>
+        <div class="team-name">Nome Cognome</div>
+        <p class="team-bio">Breve bio della persona. Cosa fa, cosa ama, perché ha fondato LIMI.</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-role">Redattore</div>
+        <div class="team-name">Nome Cognome</div>
+        <p class="team-bio">Breve bio della persona. Cosa fa, cosa ama, perché ha fondato LIMI.</p>
+      </div>
+    </div>
+  </div>
+</section>
