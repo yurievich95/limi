@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIMI. — rivista di confine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --ink: #1A1410;
+    --rust: #B84B2A;
+    --gold: #C8A96E;
+    --fog: #D9D2C5;
+    --deep: #2C1F14;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--rust);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px; height: 32px;
+    border: 1px solid var(--rust);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.15s ease, opacity 0.3s;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+  }
+
+  /* HEADER / NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    mix-blend-mode: multiply;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .nav-logo span { color: var(--rust); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 3rem 5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-issue {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-issue::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--rust);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--deep);
+    opacity: 0.75;
+    max-width: 380px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--ink);
+    padding: 1rem 2rem;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    width: fit-content;
+  }
+  .hero-cta:hover {
+    background: var(--rust);
+    transform: translateY(-2px);
+  }
+  .hero-cta::after {
+    content: '→';
+    font-style: normal;
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Simulated magazine cover with pure CSS */
+  .cover-art {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 60% 40%, rgba(184,75,42,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 30% 70%, rgba(200,169,110,0.1) 0%, transparent 60%),
+      linear-gradient(160deg, var(--fog) 0%, var(--cream) 50%, #EAE3D5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cover-shape {
+    width: 320px;
+    height: 420px;
+    position: relative;
+  }
+
+  /* Geometric abstract representing the "liminale" concept */
+  .cover-shape::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 200px; height: 260px;
+    border: 1.5px solid rgba(26,20,16,0.2);
+    animation: drift 8s ease-in-out infinite;
+  }
+
+  .cover-shape::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) rotate(12deg);
+    width: 180px; height: 240px;
+    border: 1px solid rgba(184,75,42,0.4);
+    animation: drift 8s ease-in-out infinite reverse;
+  }
+
+  .cover-inner {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 140px; height: 180px;
+    background: var(--rust);
+    opacity: 0.08;
+    animation: breathe 6s ease-in-out infinite;
+  }
+
+  .cover-number {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(26,20,16,0.06);
+    line-height: 1;
+    user-select: none;
+  }
+
+  .cover-label {
+    position: absolute;
+    top: 2.5rem; left: 2.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .cover-theme {
+    position: absolute;
+    bottom: 3rem; left: 2.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--ink);
+    opacity: 0.35;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(-50%,-50%) rotate(0deg); }
+    33% { transform: translate(-48%,-52%) rotate(3deg); }
+    66% { transform: translate(-52%,-48%) rotate(-2deg); }
+  }
+  @keyframes breathe {
+    0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.08; }
+    50% { transform: translate(-50%,-50%) scale(1.15); opacity: 0.12; }
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    background: var(--ink);
+    overflow: hidden;
+    padding: 0.85rem 0;
+    position: relative;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream);
+    padding: 0 2.5rem;
+    opacity: 0.6;
+  }
+  .marquee-dot {
+    color: var(--rust);
+    opacity: 1 !important;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* MANIFESTO section */
+  .manifesto {
+    padding: 8rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .manifesto-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    position: sticky;
+    top: 8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .manifesto-label::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: var(--rust);
+    margin: 0 auto 1rem 0;
+  }
+
+  .manifesto-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    font-weight: 900;
+    color: rgba(26,20,16,0.06);
+    line-height: 1;
+    margin-top: 2rem;
+  }
+
+  .manifesto-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.2;
+    margin-bottom: 3rem;
+    color: var(--ink);
+  }
+
+  .manifesto-body p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--deep);
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+    max-width: 640px;
+  }
+
+  .manifesto-body p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    float: left;
+    line-height: 0.75;
+    margin-right: 0.15em;
+    margin-top: 0.1em;
+    color: var(--rust);
+  }
+
+  .manifesto-keyword {
+    display: inline;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--rust);
+  }
+
+  /* DIVIDER */
+  .divider {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem;
+    border-top: 1px solid rgba(26,20,16,0.12);
+  }
+
+  /* ARTICOLI */
+  .section-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 3rem 2rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .section-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+
+  /* Articles grid */
+  .articles-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem 6rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5px;
+  }
+
+  .article-card {
+    background: var(--fog);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: none;
+  }
+  .article-card:hover { background: #D0C9BB; }
+
+  .article-card.featured {
+    grid-row: span 2;
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 400px;
+    padding: 3rem;
+  }
+  .article-card.featured:hover { background: var(--deep); }
+
+  .article-card.accent {
+    background: var(--rust);
+    color: var(--cream);
+  }
+  .article-card.accent:hover { background: #A04028; }
+
+  .card-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+  }
+  .article-card.featured .card-author,
+  .article-card.accent .card-author {
+    color: currentColor;
+    opacity: 0.6;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+  .article-card.featured .card-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-excerpt {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0.65;
+    font-style: italic;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-arrow {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    font-size: 1.2rem;
+    opacity: 0.2;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .article-card:hover .card-arrow {
+    opacity: 0.6;
+    transform: translate(3px, -3px);
+  }
+
+  /* GALLERIA */
+  .gallery-section {
+    background: var(--deep);
+    padding: 5rem 3rem;
+  }
+
+  .gallery-header {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .gallery-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--cream);
+  }
+
+  .gallery-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+
+  .gallery-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5px;
+  }
+
+  .gallery-item {
+    aspect-ratio: 3/4;
+    background: rgba(255,255,255,0.04);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover { transform: scale(0.98); }
+
+  /* Simulated photography with abstract CSS art */
+  .gallery-item:nth-child(1) {
+    background: linear-gradient(135deg, #2C1F14 0%, #B84B2A 60%, #C8A96E 100%);
+  }
+  .gallery-item:nth-child(2) {
+    background: radial-gradient(circle at 30% 70%, rgba(200,169,110,0.4) 0%, #1A1410 70%);
+  }
+  .gallery-item:nth-child(3) {
+    background: linear-gradient(200deg, #D9D2C5 0%, #B84B2A 50%, #1A1410 100%);
+  }
+  .gallery-item:nth-child(4) {
+    background: radial-gradient(ellipse at 60% 30%, #C8A96E 0%, #2C1F14 70%);
+  }
+
+  .gallery-item-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(transparent, rgba(26,20,16,0.85));
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  .gallery-item:hover .gallery-item-info { transform: translateY(0); }
+
+  .gallery-artist {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .gallery-artwork {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--cream);
+  }
+
+  /* RUBRICHE */
+  .rubriche-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 3rem;
+  }
+
+  .rubriche-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .rubrica-card {
+    border-top: 1px solid rgba(26,20,16,0.2);
+    padding-top: 2rem;
+  }
+
+  .rubrica-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: rgba(26,20,16,0.07);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .rubrica-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.5rem;
+  }
+
+  .rubrica-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .rubrica-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--deep);
+    opacity: 0.65;
+  }
+
+  .rubrica-author {
+    margin-top: 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.4;
+  }
+
+  /* COLLABORA */
+  .collabora-section {
+    background: var(--rust);
+    padding: 7rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .collabora-section::before {
+    content: 'LIMI.';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 20vw;
+    font-weight: 900;
+    color: rgba(245,240,232,0.07);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .collabora-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.6);
+    margin-bottom: 2rem;
+  }
+
+  .collabora-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .collabora-subtitle {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: rgba(245,240,232,0.75);
+    max-width: 540px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .collabora-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    background: var(--cream);
+    padding: 1.2rem 2.5rem;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+    position: relative;
+  }
+  .collabora-btn:hover {
+    background: var(--ink);
+    color: var(--cream);
+    transform: translateY(-3px);
+  }
+  .collabora-btn::after { content: '→'; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 4rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .footer-brand span { color: var(--rust); }
+
+  .footer-tagline {
+    font-style: italic;
+    opacity: 0.45;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .footer-col h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li {
+    margin-bottom: 0.8rem;
+  }
+  .footer-col ul a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(245,240,232,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col ul a:hover { color: var(--cream); }
+
+  .footer-bottom {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(245,240,232,0.1);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    opacity: 0.3;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .social-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .social-links a:hover { color: var(--gold); }
+
+  /* Page load animation */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-issue { animation: fadeUp 0.8s ease 0.2s both; }
+  .hero-title { animation: fadeUp 0.8s ease 0.4s both; }
+  .hero-subtitle { animation: fadeUp 0.8s ease 0.6s both; }
+  .hero-cta { animation: fadeUp 0.8s ease 0.8s both; }
+
+  /* Horizontal rule style */
+  .ink-rule {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+  .ink-rule hr {
+    border: none;
+    border-top: 1px solid rgba(26,20,16,0.1);
+  }
+
+  /* Responsive basics */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .manifesto { grid-template-columns: 1fr; gap: 2rem; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .article-card.featured { grid-row: auto; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .rubriche-grid { grid-template-columns: 1fr; }
+    .footer { grid-template-columns: 1fr; }
+    .footer-links { grid-template-columns: repeat(2, 1fr); }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">LIMI<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#manifesto">Manifesto</a></li>
+    <li><a href="#articoli">Articoli</a></li>
+    <li><a href="#galleria">Galleria</a></li>
+    <li><a href="#rubriche">Rubriche</a></li>
+    <li><a href="#collabora">Collabora</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-issue">N° 05 — Al Bar — 2025</div>
+    <h1 class="hero-title">tra<br>il <em>conosciuto</em><br>e l'ignoto.</h1>
+    <p class="hero-subtitle">
+      Uno spazio di passaggio per giovani artisti in cerca della propria voce — scrittura, illustrazione, fotografia.
+    </p>
+    <a href="#articoli" class="hero-cta">Leggi il numero</a>
+  </div>
+  <div class="hero-right">
+    <div class="cover-art">
+      <div class="cover-shape">
+        <div class="cover-inner"></div>
+      </div>
+      <div class="cover-number">05</div>
+      <div class="cover-label">Limi. Magazine</div>
+      <div class="cover-theme">Al Bar</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <!-- Items duplicated for seamless loop -->
+    <span class="marquee-item">Scrittura</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Illustrazione</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Fotografia</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Identità in divenire</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Spazio liminale</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Voci giovani</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Bimestrale</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Scrittura</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Illustrazione</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Fotografia</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Identità in divenire</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Spazio liminale</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Voci giovani</span><span class="marquee-item marquee-dot">◆</span>
+    <span class="marquee-item">Bimestrale</span><span class="marquee-item marquee-dot">◆</span>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-label">
+    Chi siamo
+    <div class="manifesto-number">01</div>
+  </div>
+  <div class="manifesto-body">
+    <h2>Uno spazio tra due stadi dell'essere.</h2>
+    <p>
+      <span class="manifesto-keyword">Limi.</span> nasce dall'esigenza di dare voce alla sospensione, al momento cristallizzato tra passato e futuro, in un continuo processo di ricerca identitaria.
+    </p>
+    <p>
+      Evocando il concetto di <span class="manifesto-keyword">liminale</span> — di quel "limbo" che si trova tra due stadi — Limi. si propone di dare voce a giovani artisti nella loro ricerca identitaria. Un'esplorazione del concetto di transizione, di "spazio intermedio", nell'idea che l'identità non sia mai fissa, ma sempre in evoluzione.
+    </p>
+    <p>
+      Limi. evoca l'idea di un <span class="manifesto-keyword">passaggio in atto</span>, di un movimento continuo tra mondi diversi, tra il conosciuto e l'ignoto, tra l'individuo e la collettività. Spazi in divenire, incertezze e potenzialità creative.
+    </p>
+    <p>
+      È una porta aperta. Un invito a percorrere un viaggio artistico e identitario in continuo mutamento — senza confini definiti, senza approdi certi.
+    </p>
+  </div>
+</section>
+
+<div class="ink-rule"><hr></div>
+
+<!-- ARTICOLI -->
+<div class="section-header" id="articoli">
+  <h2 class="section-title">Articoli — N° 05</h2>
+  <a href="#" class="section-link">Tutti gli articoli</a>
+</div>
+
+<div class="articles-grid">
+  <!-- Featured -->
+  <div class="article-card featured">
+    <div class="card-author">Prosa — N°05</div>
+    <div class="card-title">Giorni di Mašek</div>
+    <div class="card-excerpt">Erano rimaste al mondo due sole cose: le sigarette e le sedie dei bar. Non che non vi fosse più nient'altro, ma di tutte le cose del mondo, le uniche sopravvissute indisturbate, ancora vive, che avessero ancora qualcosa da dire all'umanità, erano quelle.</div>
+    <div class="card-arrow">↗</div>
+  </div>
+
+  <!-- Regular -->
+  <div class="article-card">
+    <div class="card-author">Prosa — N°05</div>
+    <div class="card-title">Etnografia del bar</div>
+    <div class="card-excerpt">Il bar sa di granelli di zucchero e metallo dei cucchiaini sulla lingua, di briciole dei cornetti sulla punta delle dita.</div>
+    <div class="card-arrow">↗</div>
+  </div>
+
+  <div class="article-card accent">
+    <div class="card-author">Rubrica — N°05</div>
+    <div class="card-title">Ai miei professori</div>
+    <div class="card-excerpt">Professore! Ma che incredibile coincidenza, anche lei qui? Non sa che piacere vederla.</div>
+    <div class="card-arrow">↗</div>
+  </div>
+
+  <div class="article-card">
+    <div class="card-author">Prosa — N°05</div>
+    <div class="card-title">Siamo troppo grandi per crescere</div>
+    <div class="card-excerpt">Il bar contiene un campione della specie umana, dentro c'è chiunque perché il bar è sempre una soluzione valida.</div>
+    <div class="card-arrow">↗</div>
+  </div>
+
+  <div class="article-card">
+    <div class="card-author">Prosa — N°05</div>
+    <div class="card-title">Una chimera al bar</div>
+    <div class="card-excerpt">Si era svegliata con la volontà di sciogliere la sua vita in un bicchiere di aspirina.</div>
+    <div class="card-arrow">↗</div>
+  </div>
+</div>
+
+<!-- GALLERIA -->
+<section class="gallery-section" id="galleria">
+  <div class="gallery-header">
+    <h2 class="gallery-title">Galleria</h2>
+    <a href="#" class="gallery-link">Tutti gli artisti</a>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <div class="gallery-item-info">
+        <div class="gallery-artist">Illustrazione</div>
+        <div class="gallery-artwork">Al Bar — N°05</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-info">
+        <div class="gallery-artist">Fotografia</div>
+        <div class="gallery-artwork">Al Bar — N°05</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-info">
+        <div class="gallery-artist">Illustrazione</div>
+        <div class="gallery-artwork">Al Bar — N°05</div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-info">
+        <div class="gallery-artist">Opere</div>
+        <div class="gallery-artwork">Al Bar — N°05</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RUBRICHE -->
+<section class="rubriche-section" id="rubriche">
+  <div class="section-header" style="padding: 0 0 0 0; max-width: none;">
+    <h2 class="section-title">Rubriche</h2>
+    <a href="#" class="section-link">Tutte le rubriche</a>
+  </div>
+  <div class="rubriche-grid">
+    <div class="rubrica-card">
+      <div class="rubrica-number">I</div>
+      <div class="rubrica-name">Rubrica</div>
+      <div class="rubrica-title">In Limine</div>
+      <p class="rubrica-desc">Sulla soglia. Un diario che si forza di tenere, un'ode alla seconda pubertà. Un esercizio di resistenza contro lo sconforto, un contenitore per le scintille di speranza.</p>
+      <div class="rubrica-author">Rubrica fissa</div>
+    </div>
+    <div class="rubrica-card">
+      <div class="rubrica-number">II</div>
+      <div class="rubrica-name">Rubrica</div>
+      <div class="rubrica-title">Parole al Centro</div>
+      <p class="rubrica-desc">La parola ricentrata nelle sue radici profonde, per dischiudere la sua natura di entità mobile ed in continua evoluzione — proprio come l'essere umano.</p>
+      <div class="rubrica-author">Rubrica fissa</div>
+    </div>
+    <div class="rubrica-card">
+      <div class="rubrica-number">III</div>
+      <div class="rubrica-name">Rubrica</div>
+      <div class="rubrica-title">Pennellate al Microscopio</div>
+      <p class="rubrica-desc">Arte e Scienza in Controluce. Pensatori di nicchia che hanno rivoluzionato il mondo della ricerca attraverso un'analisi emotiva e sensoriale del tema.</p>
+      <div class="rubrica-author">Rubrica fissa</div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLABORA -->
+<section class="collabora-section" id="collabora">
+  <div class="collabora-label">Numero 06 — aperto alle collaborazioni</div>
+  <h2 class="collabora-title">Vorresti partecipare?</h2>
+  <p class="collabora-subtitle">Siamo aperti a scrittori, illustratori, fotografi, poeti. Se hai qualcosa da dire nello spazio del confine, vogliamo sentirti.</p>
+  <a href="/cdn-cgi/l/email-protection#4d21242024202c2a2c372423280d2a202c2421632e2220" class="collabora-btn">Scrivici</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">LIMI<span>.</span></div>
+    <p class="footer-tagline">Una rivista bimestrale per giovani artisti in continuo divenire — identità, confini, passaggi.</p>
+  </div>
+  <div class="footer-links">
+    <div class="footer-col">
+      <h4>Contenuti</h4>
+      <ul>
+        <li><a href="#">Articoli</a></li>
+        <li><a href="#">Galleria</a></li>
+        <li><a href="#">Rubriche</a></li>
+        <li><a href="#">Archivio</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Rivista</h4>
+      <ul>
+        <li><a href="#">Chi siamo</a></li>
+        <li><a href="#">Manifesto</a></li>
+        <li><a href="#">Collabora</a></li>
+        <li><a href="#">Contatti</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Segui</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/limimagazine" target="_blank">Instagram</a></li>
+        <li><a href="#" target="_blank">YouTube</a></li>
+        <li><a href="#" target="_blank">TikTok</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 LIMI. Magazine — tutti i diritti riservati</div>
+    <div class="social-links">
+      <a href="https://www.instagram.com/limimagazine" target="_blank">IG</a>
+      <a href="#" target="_blank">YT</a>
+      <a href="#" target="_blank">TK</a>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Scale cursor on hover of interactive elements
+  document.querySelectorAll('a, button, .article-card, .gallery-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+      ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+      ring.style.opacity = '0.3';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.opacity = '0.5';
+    });
+  });
+
+  // Simple scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.article-card, .rubrica-card, .gallery-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY
