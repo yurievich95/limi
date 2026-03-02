@@ -1,43 +1,11 @@
-backend:
-  name: git-gateway
-  branch: main
-
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
-
-collections:
-  - name: "articoli"
-    label: "Articoli"
-    folder: "_articoli"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Titolo", name: "title", widget: "string" }
-      - { label: "Numero", name: "numero", widget: "string", hint: "Es: 05" }
-      - { label: "Tema del numero", name: "tema", widget: "string", hint: "Es: Al Bar" }
-      - { label: "Categoria", name: "categoria", widget: "select",
-          options: ["Prosa", "Poesia", "Saggio", "Rubrica"] }
-      - { label: "Testo", name: "body", widget: "markdown" }
-
-  - name: "galleria"
-    label: "Galleria"
-    folder: "_galleria"
-    create: true
-    fields:
-      - { label: "Titolo opera", name: "title", widget: "string" }
-      - { label: "Numero", name: "numero", widget: "string" }
-      - { label: "Tipo", name: "tipo", widget: "select",
-          options: ["Illustrazione", "Fotografia", "Opera"] }
-      - { label: "Immagine", name: "image", widget: "image" }
-      - { label: "Didascalia", name: "didascalia", widget: "string", required: false }
-
-  - name: "numeri"
-    label: "Numeri"
-    folder: "_numeri"
-    create: true
-    fields:
-      - { label: "Numero", name: "title", widget: "string", hint: "Es: N°05" }
-      - { label: "Tema", name: "tema", widget: "string", hint: "Es: Al Bar" }
-      - { label: "Anno", name: "anno", widget: "string" }
-      - { label: "Copertina", name: "copertina", widget: "image" }
-      - { label: "Descrizione", name: "descrizione", widget: "text" }
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LIMI. — Admin</title>
+</head>
+<body>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</body>
+</html>
