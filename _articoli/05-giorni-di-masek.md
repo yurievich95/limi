@@ -1,9 +1,10 @@
 ---
 layout: articolo.njk
 title: Giorni di Masha e l'Orso
-numero: "05"
+numero: 5
 tema: Al Pub
 categoria: Prosa
+immagine: "/images/uploads/bar.jpg"
 excerpt: Erano rimaste al mondo due sole cose — Masha e L'orso.
 ---
 
