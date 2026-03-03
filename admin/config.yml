@@ -2,9 +2,9 @@ backend:
   name: github
   repo: yurievich95/limi
   branch: main
-
-site_url: https://grand-sunburst-fd821e.netlify.app
-display_url: https://grand-sunburst-fd821e.netlify.app
+  
+site_url: https://prototipolimi.netlify.app
+display_url: https://prototipolimi.netlify.app
 
 media_folder: "src/images/uploads"
 public_folder: "/images/uploads"
