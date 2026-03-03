@@ -2,14 +2,10 @@
 layout: articolo.njk
 title: Ai miei professori
 numero: "05"
-tema: Al Bar
+tema: Al Pub
 categoria: Rubrica
 rubrica: In Limine
-excerpt: Professore! Ma che incredibile coincidenza, anche lei qui? Non sa che piacere vederla. Sembra passato un secolo da quando ci incontravamo qui al bar della stazione di prima mattina.
+excerpt: Professore! Ciaooo.
 ---
 
-Professore! Professore! Ma che incredibile coincidenza, anche lei qui? Non sa che piacere vederla.
-
-Sembra passato un secolo da quando ci incontravamo qui al bar della stazione di prima mattina. Le confesso che il caffè me lo ricordavo un po' meglio. Sarà che il sonno che avevo allora, a 15 anni — il sonno di chi, pur di evitare qualsiasi contatto umano non strettamente necessario, avrebbe dormito in piedi.
-
-Questo è un articolo fac simile dalla rubrica "In Limine". Sostituisci con il testo reale.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
