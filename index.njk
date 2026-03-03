@@ -286,7 +286,11 @@ title: Home
     <div class="hero-issue">N° {{ nNumero }} — {{ nTema }}{% if nAnno %} — {{ nAnno }}{% endif %}</div>
     <h1 class="hero-title">tra il<br><em>conosciuto</em><br>e l'ignoto.</h1>
     <p class="hero-subtitle">Uno spazio di passaggio per giovani artisti in cerca della propria voce — scrittura, illustrazione, fotografia.</p>
-    <a href="/numeri/{{ nSlug }}/" class="btn btn-dark">Leggi il numero</a>
+    {% if numeroCorrente.data.pdf %}
+  <a href="{{ numeroCorrente.data.pdf }}" class="btn btn-dark" target="_blank">Leggi il numero</a>
+{% else %}
+  <a href="/numeri/{{ nSlug }}/" class="btn btn-dark">Leggi il numero</a>
+{% endif %}
   </div>
   <div class="hero-right">
     <div class="cover-art">
