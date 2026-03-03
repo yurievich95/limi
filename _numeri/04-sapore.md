@@ -5,5 +5,5 @@ slug: "04-sapone"
 tema: Sapone
 anno: "2024"
 descrizione: Il quarto numero esplora il sapone.
-pdf: ""
+pdf: "https://share.google/wMXuvGLOcHWndmesE"
 ---
