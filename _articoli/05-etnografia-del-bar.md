@@ -2,15 +2,9 @@
 layout: articolo.njk
 title: Etnografia del bar
 numero: "05"
-tema: Al Bar
+tema: Al Pub
 categoria: Saggio
-excerpt: Il bar sa di granelli di zucchero e metallo dei cucchiaini sulla lingua, di briciole dei cornetti sulla punta delle dita, di voci che scivolano come l'amaro tra i cubetti di ghiaccio.
+excerpt: Questo è un estratto di prova dell'articolo.
 ---
 
-Il bar sa di granelli di zucchero e metallo dei cucchiaini sulla lingua, di briciole dei cornetti sulla punta delle dita, di voci che scivolano come l'amaro tra i cubetti di ghiaccio.
-
-L'aria vibra di parole confuse, come versate sul bancone, troppo piccolo e pieno per tutte — troppe storie e tazzine che si accumulano nell'ora di punta del mattino.
-
-Il bar è un non-luogo che diventa luogo nel momento in cui ci si entra. È il punto di confluenza di traiettorie umane altrimenti separate, il crocevia dove il caso si trasforma in incontro.
-
-Questo è un articolo fac simile. Sostituisci questo testo con il contenuto reale.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
