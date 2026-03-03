@@ -10,14 +10,12 @@ title: Home
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-
 .hero-left {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 5rem 3rem 5rem;
 }
-
 .hero-issue {
   font-family: var(--font-mono);
   font-size: 0.6rem;
@@ -36,7 +34,6 @@ title: Home
   height: 1px;
   background: var(--rust);
 }
-
 .hero-title {
   font-family: var(--font-display);
   font-size: clamp(3.5rem, 7vw, 6.5rem);
@@ -46,7 +43,6 @@ title: Home
   margin-bottom: 2rem;
 }
 .hero-title em { color: var(--rust); font-style: italic; }
-
 .hero-subtitle {
   font-size: 1.15rem;
   font-weight: 300;
@@ -56,7 +52,6 @@ title: Home
   max-width: 380px;
   margin-bottom: 3rem;
 }
-
 .hero-right {
   background:
     radial-gradient(ellipse 60% 80% at 60% 40%, rgba(184,75,42,0.12) 0%, transparent 70%),
@@ -68,7 +63,6 @@ title: Home
   position: relative;
   overflow: hidden;
 }
-
 .cover-art {
   position: relative;
   width: 280px;
@@ -101,6 +95,15 @@ title: Home
   opacity: 0.07;
   animation: breathe 6s ease-in-out infinite;
 }
+.cover-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  border-radius: 0;
+}
 .cover-num {
   position: absolute;
   bottom: 0; right: 0;
@@ -129,7 +132,6 @@ title: Home
   color: var(--rust);
   writing-mode: vertical-rl;
 }
-
 @keyframes drift {
   0%,100% { transform: translate(-50%,-50%) rotate(0deg); }
   33% { transform: translate(-48%,-52%) rotate(3deg); }
@@ -141,9 +143,7 @@ title: Home
 }
 
 /* ARTICLES GRID HOME */
-.home-articles {
-  padding: 5rem 0;
-}
+.home-articles { padding: 5rem 0; }
 .articles-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -157,16 +157,10 @@ title: Home
   flex-direction: column;
   justify-content: flex-end;
 }
-.card-featured .card-title {
-  font-size: 1.9rem;
-  font-weight: 700;
-}
+.card-featured .card-title { font-size: 1.9rem; font-weight: 700; }
 
 /* GALLERIA HOME */
-.home-gallery {
-  background: var(--deep);
-  padding: 5rem 0;
-}
+.home-gallery { background: var(--deep); padding: 5rem 0; }
 .home-gallery .section-title { color: var(--cream); }
 .home-gallery .section-link { color: var(--gold); border-color: var(--gold); }
 .gallery-grid-home {
@@ -176,19 +170,14 @@ title: Home
 }
 
 /* RUBRICHE HOME */
-.home-rubriche {
-  padding: 5rem 0;
-}
+.home-rubriche { padding: 5rem 0; }
 .rubriche-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
   margin-top: 2.5rem;
 }
-.rubrica-item {
-  border-top: 1px solid rgba(26,20,16,0.15);
-  padding-top: 1.5rem;
-}
+.rubrica-item { border-top: 1px solid rgba(26,20,16,0.15); padding-top: 1.5rem; }
 .rubrica-n {
   font-family: var(--font-display);
   font-size: 3.5rem;
@@ -212,13 +201,9 @@ title: Home
   margin-bottom: 0.8rem;
   line-height: 1.3;
 }
-.rubrica-desc {
-  font-size: 0.9rem;
-  line-height: 1.65;
-  opacity: 0.55;
-}
+.rubrica-desc { font-size: 0.9rem; line-height: 1.65; opacity: 0.55; }
 
-/* COLLABORA HOME */
+/* COLLABORA CTA */
 .home-cta {
   background: var(--rust);
   padding: 6rem 0;
@@ -264,11 +249,7 @@ title: Home
   line-height: 1.7;
   position: relative;
 }
-.btn-cream {
-  color: var(--rust);
-  background: var(--cream);
-  position: relative;
-}
+.btn-cream { color: var(--rust); background: var(--cream); position: relative; }
 .btn-cream:hover { background: var(--ink); color: var(--cream); }
 
 @media (max-width: 900px) {
@@ -281,20 +262,42 @@ title: Home
 }
 </style>
 
+{# ── Prendi il numero corrente (il primo della lista, ordinata per numero desc) ── #}
+{% set numeroCorrente = collections.numeri[0] %}
+{% if numeroCorrente %}
+  {% set nSlug   = numeroCorrente.data.slug %}
+  {% set nNumero = numeroCorrente.data.numero %}
+  {% set nTema   = numeroCorrente.data.tema %}
+  {% set nAnno   = numeroCorrente.data.anno %}
+  {% set nCover  = numeroCorrente.data.copertina %}
+  {% set nProssimo = nNumero + 1 %}
+{% else %}
+  {% set nSlug   = "#" %}
+  {% set nNumero = "—" %}
+  {% set nTema   = "In arrivo" %}
+  {% set nAnno   = "" %}
+  {% set nCover  = "" %}
+  {% set nProssimo = "" %}
+{% endif %}
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-issue">N° 05 — Al Bar — 2025</div>
+    <div class="hero-issue">N° {{ nNumero }} — {{ nTema }}{% if nAnno %} — {{ nAnno }}{% endif %}</div>
     <h1 class="hero-title">tra il<br><em>conosciuto</em><br>e l'ignoto.</h1>
     <p class="hero-subtitle">Uno spazio di passaggio per giovani artisti in cerca della propria voce — scrittura, illustrazione, fotografia.</p>
-    <a href="/numeri/05-al-bar/" class="btn btn-dark">Leggi il numero</a>
+    <a href="/numeri/{{ nSlug }}/" class="btn btn-dark">Leggi il numero</a>
   </div>
   <div class="hero-right">
     <div class="cover-art">
-      <div class="cover-fill"></div>
-      <div class="cover-num">05</div>
+      {% if nCover %}
+        <img src="{{ nCover }}" alt="Copertina {{ nTema }}" class="cover-img">
+      {% else %}
+        <div class="cover-fill"></div>
+      {% endif %}
+      <div class="cover-num">{{ nNumero }}</div>
       <div class="cover-side-label">Limi. Magazine</div>
-      <div class="cover-theme-label">Al Bar</div>
+      <div class="cover-theme-label">{{ nTema }}</div>
     </div>
   </div>
 </section>
@@ -318,7 +321,7 @@ title: Home
       <a href="/articoli/" class="section-link">Tutti gli articoli</a>
     </div>
     <div class="articles-grid">
-      {% set articoliNumero = collections.articoli | byNumero("05") %}
+      {% set articoliNumero = collections.articoli | byNumero(nNumero | string) %}
       {% if articoliNumero.length > 0 %}
         {% for articolo in articoliNumero.slice(0, 5) %}
           <a href="{{ articolo.url }}" class="card reveal {% if loop.first %}card-dark card-featured{% elif loop.index == 3 %}card-rust{% endif %}">
@@ -331,32 +334,29 @@ title: Home
           </a>
         {% endfor %}
       {% else %}
-        <!-- Fac simile articoli -->
         <a href="#" class="card card-dark card-featured reveal">
-          <div class="card-label">Prosa — N°05</div>
+          <div class="card-label">Prosa — N°{{ nNumero }}</div>
           <div class="card-title">Titolo dell'articolo in evidenza</div>
-          <div class="card-excerpt">Incipit dell'articolo che cattura il lettore e lo invita a continuare la lettura...</div>
+          <div class="card-excerpt">Incipit dell'articolo che cattura il lettore...</div>
           <div class="card-arrow">↗</div>
         </a>
         <a href="#" class="card reveal">
-          <div class="card-label">Prosa — N°05</div>
+          <div class="card-label">Prosa — N°{{ nNumero }}</div>
           <div class="card-title">Secondo articolo del numero</div>
-          <div class="card-excerpt">Breve estratto che introduce il pezzo...</div>
           <div class="card-arrow">↗</div>
         </a>
         <a href="#" class="card card-rust reveal">
-          <div class="card-label">Rubrica — N°05</div>
+          <div class="card-label">Rubrica — N°{{ nNumero }}</div>
           <div class="card-title">Articolo dalla rubrica fissa</div>
-          <div class="card-excerpt">Estratto della rubrica...</div>
           <div class="card-arrow">↗</div>
         </a>
         <a href="#" class="card reveal">
-          <div class="card-label">Saggio — N°05</div>
+          <div class="card-label">Saggio — N°{{ nNumero }}</div>
           <div class="card-title">Quarto articolo del numero</div>
           <div class="card-arrow">↗</div>
         </a>
         <a href="#" class="card reveal">
-          <div class="card-label">Poesia — N°05</div>
+          <div class="card-label">Poesia — N°{{ nNumero }}</div>
           <div class="card-title">Quinto articolo del numero</div>
           <div class="card-arrow">↗</div>
         </a>
@@ -373,7 +373,7 @@ title: Home
       <a href="/galleria/" class="section-link">Tutta la galleria</a>
     </div>
     <div class="gallery-grid-home">
-      {% set galleriaNumero = collections.galleria | byNumero("05") %}
+      {% set galleriaNumero = collections.galleria | byNumero(nNumero | string) %}
       {% if galleriaNumero.length > 0 %}
         {% for opera in galleriaNumero.slice(0,4) %}
           <a href="/galleria/" class="gallery-item reveal">
@@ -387,12 +387,11 @@ title: Home
           </a>
         {% endfor %}
       {% else %}
-        <!-- Fac simile galleria -->
         {% for i in [1,2,3,4] %}
         <div class="gallery-item reveal" style="background: linear-gradient({{ [135,160,200,220][loop.index0] }}deg, var(--deep) 0%, var(--rust) 60%, var(--gold) 100%);">
           <div class="gallery-overlay">
             <div class="gallery-artist">Illustrazione</div>
-            <div class="gallery-title">Opera N°{{ i }} — Al Bar</div>
+            <div class="gallery-title">Opera N°{{ i }} — {{ nTema }}</div>
           </div>
         </div>
         {% endfor %}
@@ -419,7 +418,6 @@ title: Home
           </a>
         {% endfor %}
       {% else %}
-        <!-- Fac simile rubriche -->
         <div class="rubrica-item reveal">
           <div class="rubrica-n">01</div>
           <div class="rubrica-name">Rubrica fissa</div>
@@ -445,7 +443,11 @@ title: Home
 
 <!-- COLLABORA CTA -->
 <section class="home-cta">
-  <div class="home-cta-label">Numero 06 — aperto alle collaborazioni</div>
+  {% if nProssimo %}
+    <div class="home-cta-label">Numero {{ nProssimo }} — aperto alle collaborazioni</div>
+  {% else %}
+    <div class="home-cta-label">Prossimo numero — aperto alle collaborazioni</div>
+  {% endif %}
   <h2 class="home-cta-title">Vorresti partecipare?</h2>
   <p class="home-cta-sub">Siamo aperti a scrittori, illustratori, fotografi, poeti. Se hai qualcosa da dire nello spazio del confine, vogliamo sentirti.</p>
   <a href="/collabora/" class="btn btn-cream">Scrivici</a>
