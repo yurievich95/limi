@@ -1,6 +1,6 @@
 ---
 title: "N°05"
-numero: 5
+numero: ""5
 slug: "05-al-bar"
 tema: Al Bar
 anno: "2025"
