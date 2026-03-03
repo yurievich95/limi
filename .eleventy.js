@@ -4,9 +4,9 @@ module.exports = function(eleventyConfig) {
     return String(value).padStart(Number(targetLength), padString || " ");
   });
   // Copia file statici
-  eleventyConfig.addPassthroughCopy("src/css");
-  eleventyConfig.addPassthroughCopy("src/js");
-  eleventyConfig.addPassthroughCopy("src/images");
+
+  eleventyConfig.addPassthroughCopy("css");
+  eleventyConfig.addPassthroughCopy("js");
   eleventyConfig.addPassthroughCopy("admin");
 
   // Collezioni
