@@ -1,7 +1,7 @@
 ---
 layout: articolo.njk
 title: Ai miei professori
-numero: "05"
+numero: "5"
 tema: Al Pub
 categoria: Rubrica
 rubrica: In Limine
