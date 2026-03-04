@@ -45,7 +45,7 @@ body {
   z-index: 9999;
   transform: translate(-50%,-50%);
   transition: transform 0.1s ease;
-  mix-blend-mode: multiply;
+  mix-blend-mode: difference;
 }
 .cursor-ring {
   position: fixed;
@@ -57,7 +57,17 @@ body {
   transform: translate(-50%,-50%);
   transition: opacity 0.3s;
   opacity: 0.5;
-  mix-blend-mode: multiply;
+  mix-blend-mode: difference;
+   
+}
+
+a,
+a:hover,
+a:focus,
+button,
+button:hover,
+button:focus {
+  cursor: none !important;
 }
 
 /* ---- NAVIGATION ---- */
@@ -522,3 +532,4 @@ body {
   .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
   .footer-links { grid-template-columns: repeat(2,1fr); }
 }
+
