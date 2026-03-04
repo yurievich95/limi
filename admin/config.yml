@@ -1,12 +1,14 @@
-backend:
-  name: github
-  repo: yurievich95/limi
-  branch: main
-  
-site_url: https://prototipolimi.netlify.app
-display_url: https://prototipolimi.netlify.app
+# ============================================
+# CONFIG.YML — USO LOCALE
+# Usare per test in locale con npm start
+# Prima di fare push, sostituire con config-produzione.yml
+# ============================================
 
-media_folder: "src/images/uploads"
+backend:
+  name: git-gateway
+local_backend: true
+
+media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
@@ -18,12 +20,13 @@ collections:
     slug: "{{numero}}-{{slug}}"
     fields:
       - { label: "Titolo", name: "title", widget: "string" }
-      - { label: "Numero", name: "numero", widget: "string", hint: "Es: 05" }
+      - { label: "Numero", name: "numero", widget: "string", hint: "Es: 5" }
       - { label: "Tema del numero", name: "tema", widget: "string", hint: "Es: Al Bar" }
       - { label: "Categoria", name: "categoria", widget: "select",
           options: ["Prosa", "Poesia", "Saggio", "Rubrica"] }
       - { label: "Rubrica (solo se categoria = Rubrica)", name: "rubrica", widget: "string", required: false,
           hint: "Es: In Limine" }
+      - { label: "Immagine di copertina", name: "immagine", widget: "image", required: false }
       - { label: "Estratto / Incipit", name: "excerpt", widget: "text", required: false,
           hint: "Breve testo di anteprima (2-3 righe)" }
       - { label: "Testo dell'articolo", name: "body", widget: "markdown" }
@@ -36,7 +39,7 @@ collections:
     slug: "{{numero}}-{{slug}}"
     fields:
       - { label: "Titolo opera", name: "title", widget: "string" }
-      - { label: "Numero", name: "numero", widget: "string", hint: "Es: 05" }
+      - { label: "Numero", name: "numero", widget: "string", hint: "Es: 5" }
       - { label: "Tipo", name: "tipo", widget: "select",
           options: ["Illustrazione", "Fotografia", "Opera"] }
       - { label: "Immagine", name: "image", widget: "image" }
