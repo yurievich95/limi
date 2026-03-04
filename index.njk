@@ -4,7 +4,6 @@ title: Home
 ---
 
 <style>
-/* HOME-SPECIFIC */
 .hero {
   min-height: calc(100vh - var(--nav-height));
   display: grid;
@@ -102,7 +101,6 @@ title: Home
   height: 100%;
   object-fit: cover;
   opacity: 0.35;
-  border-radius: 0;
 }
 .cover-num {
   position: absolute;
@@ -141,8 +139,6 @@ title: Home
   0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.07; }
   50% { transform: translate(-50%,-50%) scale(1.15); opacity: 0.12; }
 }
-
-/* ARTICLES GRID HOME */
 .home-articles { padding: 5rem 0; }
 .articles-grid {
   display: grid;
@@ -158,8 +154,6 @@ title: Home
   justify-content: flex-end;
 }
 .card-featured .card-title { font-size: 1.9rem; font-weight: 700; }
-
-/* GALLERIA HOME */
 .home-gallery { background: var(--deep); padding: 5rem 0; }
 .home-gallery .section-title { color: var(--cream); }
 .home-gallery .section-link { color: var(--gold); border-color: var(--gold); }
@@ -168,8 +162,6 @@ title: Home
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5px;
 }
-
-/* RUBRICHE HOME */
 .home-rubriche { padding: 5rem 0; }
 .rubriche-list {
   display: grid;
@@ -202,8 +194,6 @@ title: Home
   line-height: 1.3;
 }
 .rubrica-desc { font-size: 0.9rem; line-height: 1.65; opacity: 0.55; }
-
-/* COLLABORA CTA */
 .home-cta {
   background: var(--rust);
   padding: 6rem 0;
@@ -251,7 +241,6 @@ title: Home
 }
 .btn-cream { color: var(--rust); background: var(--cream); position: relative; }
 .btn-cream:hover { background: var(--ink); color: var(--cream); }
-
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
   .hero-right { display: none; }
@@ -262,35 +251,52 @@ title: Home
 }
 </style>
 
-{# ── Prendi il numero corrente (il primo della lista, ordinata per numero desc) ── #}
-{% set numeroCorrente = collections.numeri[0] %}
-{% if numeroCorrente %}
-  {% set nSlug   = numeroCorrente.data.slug %}
-  {% set nNumero = numeroCorrente.data.numero %}
-  {% set nTema   = numeroCorrente.data.tema %}
-  {% set nAnno   = numeroCorrente.data.anno %}
-  {% set nCover  = numeroCorrente.data.copertina %}
+{# ── Numero corrente con valori di fallback sicuri ── #}
+{% if collections.numeri and collections.numeri.length > 0 %}
+  {% set nc = collections.numeri[0] %}
+  {% set nSlug     = nc.data.slug     if nc.data.slug     else "#" %}
+  {% set nNumero   = nc.data.numero   if nc.data.numero   else 0 %}
+  {% set nTema     = nc.data.tema     if nc.data.tema     else "In arrivo" %}
+  {% set nAnno     = nc.data.anno     if nc.data.anno     else "" %}
+  {% set nCover    = nc.data.copertina if nc.data.copertina else "" %}
+  {% set nPdf      = nc.data.pdf      if nc.data.pdf      else "" %}
   {% set nProssimo = nNumero + 1 %}
+  {% set nNumStr   = "" ~ nNumero %}
 {% else %}
-  {% set nSlug   = "#" %}
-  {% set nNumero = "—" %}
-  {% set nTema   = "In arrivo" %}
-  {% set nAnno   = "" %}
-  {% set nCover  = "" %}
+  {% set nc        = null %}
+  {% set nSlug     = "#" %}
+  {% set nNumero   = 0 %}
+  {% set nNumStr   = "—" %}
+  {% set nTema     = "In arrivo" %}
+  {% set nAnno     = "" %}
+  {% set nCover    = "" %}
+  {% set nPdf      = "" %}
   {% set nProssimo = "" %}
+{% endif %}
+
+{# ── Articoli: prima prova per numero corrente, poi fallback su tutti ── #}
+{% set articoliNumero = collections.articoli | byNumero(nNumStr) %}
+{% if not articoliNumero or articoliNumero.length == 0 %}
+  {% set articoliNumero = collections.articoli %}
+{% endif %}
+
+{# ── Galleria: stessa logica ── #}
+{% set galleriaNumero = collections.galleria | byNumero(nNumStr) %}
+{% if not galleriaNumero or galleriaNumero.length == 0 %}
+  {% set galleriaNumero = collections.galleria %}
 {% endif %}
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-issue">N° {{ nNumero }} — {{ nTema }}{% if nAnno %} — {{ nAnno }}{% endif %}</div>
+    <div class="hero-issue">N° {{ nNumStr }} — {{ nTema }}{% if nAnno %} — {{ nAnno }}{% endif %}</div>
     <h1 class="hero-title">tra il<br><em>conosciuto</em><br>e l'ignoto.</h1>
     <p class="hero-subtitle">Uno spazio di passaggio per giovani artisti in cerca della propria voce — scrittura, illustrazione, fotografia.</p>
-    {% if numeroCorrente.data.pdf %}
-  <a href="{{ numeroCorrente.data.pdf }}" class="btn btn-dark" target="_blank">Leggi il numero</a>
-{% else %}
-  <a href="/numeri/{{ nSlug }}/" class="btn btn-dark">Leggi il numero</a>
-{% endif %}
+    {% if nPdf %}
+      <a href="{{ nPdf }}" class="btn btn-dark" target="_blank">Leggi il numero</a>
+    {% else %}
+      <a href="/numeri/{{ nSlug }}/" class="btn btn-dark">Leggi il numero</a>
+    {% endif %}
   </div>
   <div class="hero-right">
     <div class="cover-art">
@@ -299,7 +305,7 @@ title: Home
       {% else %}
         <div class="cover-fill"></div>
       {% endif %}
-      <div class="cover-num">{{ nNumero }}</div>
+      <div class="cover-num">{{ nNumStr }}</div>
       <div class="cover-side-label">Limi. Magazine</div>
       <div class="cover-theme-label">{{ nTema }}</div>
     </div>
@@ -325,42 +331,47 @@ title: Home
       <a href="/articoli/" class="section-link">Tutti gli articoli</a>
     </div>
     <div class="articles-grid">
-      {% set articoliNumero = collections.articoli | byNumero(nNumero | string) %}
-      {% if articoliNumero.length > 0 %}
+      {% if articoliNumero and articoliNumero.length > 0 %}
         {% for articolo in articoliNumero.slice(0, 5) %}
-          <a href="{{ articolo.url }}" class="card reveal {% if loop.first %}card-dark card-featured{% elif loop.index == 3 %}card-rust{% endif %}">
-            <div class="card-label">{{ articolo.data.categoria }} — N°{{ articolo.data.numero }}</div>
-            <div class="card-title">{{ articolo.data.title }}</div>
-            {% if articolo.data.excerpt %}
-              <div class="card-excerpt">{{ articolo.data.excerpt }}</div>
+          <a href="{{ articolo.url }}" class="card reveal {% if loop.first %}card-dark card-featured{% elif loop.index == 3 %}card-rust{% endif %}" style="position:relative;overflow:hidden;">
+            {% if articolo.data.immagine %}
+              <img src="{{ articolo.data.immagine }}" alt="{{ articolo.data.title }}"
+                   style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.15;pointer-events:none;z-index:0;">
             {% endif %}
+            <div style="position:relative;z-index:1;">
+              <div class="card-label">{{ articolo.data.categoria }} — N°{{ articolo.data.numero }}</div>
+              <div class="card-title">{{ articolo.data.title }}</div>
+              {% if articolo.data.excerpt %}
+                <div class="card-excerpt">{{ articolo.data.excerpt }}</div>
+              {% endif %}
+            </div>
             <div class="card-arrow">↗</div>
           </a>
         {% endfor %}
       {% else %}
         <a href="#" class="card card-dark card-featured reveal">
-          <div class="card-label">Prosa — N°{{ nNumero }}</div>
+          <div class="card-label">Prosa — N°{{ nNumStr }}</div>
           <div class="card-title">Titolo dell'articolo in evidenza</div>
           <div class="card-excerpt">Incipit dell'articolo che cattura il lettore...</div>
           <div class="card-arrow">↗</div>
         </a>
         <a href="#" class="card reveal">
-          <div class="card-label">Prosa — N°{{ nNumero }}</div>
+          <div class="card-label">Prosa — N°{{ nNumStr }}</div>
           <div class="card-title">Secondo articolo del numero</div>
           <div class="card-arrow">↗</div>
         </a>
         <a href="#" class="card card-rust reveal">
-          <div class="card-label">Rubrica — N°{{ nNumero }}</div>
+          <div class="card-label">Rubrica — N°{{ nNumStr }}</div>
           <div class="card-title">Articolo dalla rubrica fissa</div>
           <div class="card-arrow">↗</div>
         </a>
         <a href="#" class="card reveal">
-          <div class="card-label">Saggio — N°{{ nNumero }}</div>
+          <div class="card-label">Saggio — N°{{ nNumStr }}</div>
           <div class="card-title">Quarto articolo del numero</div>
           <div class="card-arrow">↗</div>
         </a>
         <a href="#" class="card reveal">
-          <div class="card-label">Poesia — N°{{ nNumero }}</div>
+          <div class="card-label">Poesia — N°{{ nNumStr }}</div>
           <div class="card-title">Quinto articolo del numero</div>
           <div class="card-arrow">↗</div>
         </a>
@@ -377,12 +388,13 @@ title: Home
       <a href="/galleria/" class="section-link">Tutta la galleria</a>
     </div>
     <div class="gallery-grid-home">
-      {% set galleriaNumero = collections.galleria | byNumero(nNumero | string) %}
-      {% if galleriaNumero.length > 0 %}
+      {% if galleriaNumero and galleriaNumero.length > 0 %}
         {% for opera in galleriaNumero.slice(0,4) %}
           <a href="/galleria/" class="gallery-item reveal">
             {% if opera.data.image %}
               <img src="{{ opera.data.image }}" alt="{{ opera.data.title }}">
+            {% else %}
+              <div style="width:100%;height:100%;min-height:200px;background:linear-gradient({{ [135,160,200,220][loop.index0] }}deg,var(--deep) 0%,var(--rust) 60%,var(--gold) 100%);"></div>
             {% endif %}
             <div class="gallery-overlay">
               <div class="gallery-artist">{{ opera.data.tipo }}</div>
@@ -392,7 +404,7 @@ title: Home
         {% endfor %}
       {% else %}
         {% for i in [1,2,3,4] %}
-        <div class="gallery-item reveal" style="background: linear-gradient({{ [135,160,200,220][loop.index0] }}deg, var(--deep) 0%, var(--rust) 60%, var(--gold) 100%);">
+        <div class="gallery-item reveal" style="background:linear-gradient({{ [135,160,200,220][loop.index0] }}deg,var(--deep) 0%,var(--rust) 60%,var(--gold) 100%);">
           <div class="gallery-overlay">
             <div class="gallery-artist">Illustrazione</div>
             <div class="gallery-title">Opera N°{{ i }} — {{ nTema }}</div>
@@ -412,7 +424,7 @@ title: Home
       <a href="/rubriche/" class="section-link">Tutte le rubriche</a>
     </div>
     <div class="rubriche-list">
-      {% if collections.rubriche.length > 0 %}
+      {% if collections.rubriche and collections.rubriche.length > 0 %}
         {% for rubrica in collections.rubriche %}
           <a href="{{ rubrica.url }}" class="rubrica-item reveal" style="text-decoration:none;color:inherit;">
             <div class="rubrica-n">{{ loop.index | string | padStart(2, '0') }}</div>
