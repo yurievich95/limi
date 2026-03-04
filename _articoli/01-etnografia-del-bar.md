@@ -1,7 +1,7 @@
 ---
 layout: articolo.njk
 title: Etnografia del bar
-numero: "05"
+numero: 5
 tema: Al Pub
 categoria: Saggio
 excerpt: Questo è un estratto di prova dell'articolo.
