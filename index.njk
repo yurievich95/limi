@@ -17,7 +17,7 @@ title: Home
 }
 .hero-issue {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--rust);
@@ -43,7 +43,7 @@ title: Home
 }
 .hero-title em { color: var(--rust); font-style: italic; }
 .hero-subtitle {
-  font-size: 1.15rem;
+  font-size: 1.5rem;
   font-weight: 300;
   font-style: italic;
   line-height: 1.65;
@@ -61,28 +61,31 @@ title: Home
   justify-content: center;
   position: relative;
   overflow: hidden;
+  flex-direction: column;
+  padding: 3rem;
+  gap: 0;
 }
 .cover-art {
   position: relative;
-  width: 280px;
-  height: 380px;
+  width: 360px;
+  height: 500px;
 }
 .cover-art::before {
   content: '';
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  width: 180px; height: 240px;
-  border: 1.5px solid rgba(26,20,16,0.18);
-  animation: drift 8s ease-in-out infinite;
+  width: 250px; height: 310px;
+  border: 3.5px solid rgba(26,20,16,0.18);
+  animation: drift 5s ease-in-out infinite;
 }
 .cover-art::after {
   content: '';
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%,-50%) rotate(10deg);
-  width: 160px; height: 220px;
-  border: 1px solid rgba(184,75,42,0.35);
+  width: 250px; height: 310px;
+  border: 3.5px solid rgba(184,75,42,0.35);
   animation: drift 8s ease-in-out infinite reverse;
 }
 .cover-fill {
@@ -100,8 +103,10 @@ title: Home
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.35;
+  opacity: 0.7;
 }
+
+/* NB da rimuovere opacità 0 */
 .cover-num {
   position: absolute;
   bottom: 0; right: 0;
@@ -110,7 +115,10 @@ title: Home
   font-weight: 900;
   color: rgba(26,20,16,0.05);
   line-height: 1;
+  opacity: 0.0;
 }
+
+/* NB da rimuovere opacità 0 */
 .cover-theme-label {
   position: absolute;
   bottom: 2rem; left: 0;
@@ -118,14 +126,14 @@ title: Home
   font-size: 1.2rem;
   font-style: italic;
   color: var(--ink);
-  opacity: 0.3;
+  opacity: 0.0;
 }
 .cover-side-label {
   position: absolute;
   top: 2rem; left: -1.5rem;
   font-family: var(--font-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--rust);
   writing-mode: vertical-rl;
@@ -291,12 +299,7 @@ title: Home
   <div class="hero-left">
     <div class="hero-issue">N° {{ nNumStr }} — {{ nTema }}{% if nAnno %} — {{ nAnno }}{% endif %}</div>
     <h1 class="hero-title">tra il<br><em>conosciuto</em><br>e l'ignoto.</h1>
-    <p class="hero-subtitle">Uno spazio di passaggio per giovani artisti in cerca della propria voce — scrittura, illustrazione, fotografia.</p>
-    {% if nPdf %}
-      <a href="{{ nPdf }}" class="btn btn-dark" target="_blank">Leggi il numero</a>
-    {% else %}
-      <a href="/numeri/{{ nSlug }}/" class="btn btn-dark">Leggi il numero</a>
-    {% endif %}
+    <p class="hero-subtitle">{{ siteDescription if siteDescription else "rivista online bimestrale con l'obiettivo di creare uno spazio di esposizione e condivisione per tutta." }}</p>
   </div>
   <div class="hero-right">
     <div class="cover-art">
@@ -309,43 +312,78 @@ title: Home
       <div class="cover-side-label">Limi. Magazine</div>
       <div class="cover-theme-label">{{ nTema }}</div>
     </div>
+{% if nPdf %}
+  <a href="{{ nPdf }}" target="_blank"
+     style="margin-top:2rem;display:block;text-align:center;text-decoration:none;font-family:var(--font-display);font-size:1.4rem;font-style:italic;font-weight:700;color:var(--rust);letter-spacing:-0.01em;transition:opacity 0.2s;border-bottom:2px solid var(--rust);padding-bottom:0.3rem;width:fit-content;margin-left:auto;margin-right:auto;"
+     onmouseover="this.style.opacity='0.6';"
+     onmouseout="this.style.opacity='1';">
+    leggi ultimo numero
+  </a>
+{% else %}
+  <a href="/numeri/{{ nSlug }}/"
+     style="margin-top:2rem;display:block;text-align:center;text-decoration:none;font-family:var(--font-display);font-size:1.4rem;font-style:italic;font-weight:700;color:var(--rust);letter-spacing:-0.01em;transition:opacity 0.2s;border-bottom:2px solid var(--rust);padding-bottom:0.3rem;width:fit-content;margin-left:auto;margin-right:auto;"
+     onmouseover="this.style.opacity='0.6';"
+     onmouseout="this.style.opacity='1';">
+    leggi ultimo numero
+  </a>
+{% endif %}
   </div>
 </section>
 
 <!-- MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee-track">
-    {% set items = ["Scrittura", "Illustrazione", "Fotografia", "Identità in divenire", "Spazio liminale", "Voci giovani", "Bimestrale", "Scrittura", "Illustrazione", "Fotografia", "Identità in divenire", "Spazio liminale", "Voci giovani", "Bimestrale"] %}
-    {% for item in items %}
-      <span class="marquee-item">{{ item }}</span>
-      <span class="marquee-item marquee-dot">◆</span>
+    {% for i in [1, 2] %}
+      {% for item in marquee.voci %}
+        <span class="marquee-item">{{ item }}</span>
+        <span class="marquee-item marquee-dot">◆</span>
+      {% endfor %}
     {% endfor %}
   </div>
 </div>
 
 <!-- ARTICOLI IN EVIDENZA -->
 <section class="home-articles">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Dal numero corrente</h2>
-      <a href="/articoli/" class="section-link">Tutti gli articoli</a>
-    </div>
+<div style="margin-bottom:2.5rem;">
+  <div style="font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--rust);margin-bottom:0.8rem;display:flex;align-items:center;gap:1rem;">
+    <span style="display:block;width:30px;height:1px;background:var(--rust);"></span>
+    N° {{ nNumStr }} — {{ nTema }}
+  </div>
+  <div style="display:flex;align-items:baseline;justify-content:space-between;">
+    <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.02em;">dal numero <em style="color:var(--rust);font-style:italic;">corrente</em></h2>
+    <a href="/articoli/" class="section-link">Tutti gli articoli</a>
+  </div>
+</div>
     <div class="articles-grid">
       {% if articoliNumero and articoliNumero.length > 0 %}
         {% for articolo in articoliNumero.slice(0, 5) %}
           <a href="{{ articolo.url }}" class="card reveal {% if loop.first %}card-dark card-featured{% elif loop.index == 3 %}card-rust{% endif %}" style="position:relative;overflow:hidden;">
             {% if articolo.data.immagine %}
-              <img src="{{ articolo.data.immagine }}" alt="{{ articolo.data.title }}"
-                   style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.15;pointer-events:none;z-index:0;">
-            {% endif %}
+  <img src="{{ articolo.data.immagine }}" alt="{{ articolo.data.title }}"
+       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.35;pointer-events:none;z-index:0;">
+  <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(26,20,16,0.75) 0%, rgba(26,20,16,0.1) 60%, transparent 100%);z-index:0;pointer-events:none;"></div>
+{% endif %}
             <div style="position:relative;z-index:1;">
-              <div class="card-label">{{ articolo.data.categoria }} — N°{{ articolo.data.numero }}</div>
-              <div class="card-title">{{ articolo.data.title }}</div>
-              {% if articolo.data.excerpt %}
-                <div class="card-excerpt">{{ articolo.data.excerpt }}</div>
-              {% endif %}
-            </div>
-            <div class="card-arrow">↗</div>
+  <div class="card-label">{{ articolo.data.categoria }} — N°{{ articolo.data.numero }}</div>
+  <div style="font-family:var(--font-display);font-size:1.35rem;font-weight:700;line-height:1.2;margin-bottom:0.6rem;letter-spacing:-0.01em;">
+    {{ articolo.data.title }}
+  </div>
+  {% if articolo.data.excerpt %}
+    <div style="font-family:var(--font-body);font-size:0.95rem;font-style:italic;font-weight:300;line-height:1.6;opacity:0.75;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+      {{ articolo.data.excerpt }}
+    </div>
+  {% endif %}
+</div>
+            <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;margin-top:1.2rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.15);">
+  {% if articolo.data.autore %}
+    <span style="font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;background:rgba(255,255,255,0.12);padding:0.25rem 0.6rem;backdrop-filter:blur(4px);">
+      {{ articolo.data.autore }}
+    </span>
+  {% else %}
+    <span></span>
+  {% endif %}
+  <span style="font-size:0.9rem;opacity:0.5;">↗</span>
+</div>
           </a>
         {% endfor %}
       {% else %}
@@ -384,7 +422,7 @@ title: Home
 <section class="home-gallery">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Galleria</h2>
+      <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.02em;color:var(--cream);">galleria di <em style="color:var(--gold);font-style:italic;">Limi.</em></h2>
       <a href="/galleria/" class="section-link">Tutta la galleria</a>
     </div>
     <div class="gallery-grid-home">
@@ -396,10 +434,16 @@ title: Home
             {% else %}
               <div style="width:100%;height:100%;min-height:200px;background:linear-gradient({{ [135,160,200,220][loop.index0] }}deg,var(--deep) 0%,var(--rust) 60%,var(--gold) 100%);"></div>
             {% endif %}
-            <div class="gallery-overlay">
-              <div class="gallery-artist">{{ opera.data.tipo }}</div>
-              <div class="gallery-title">{{ opera.data.title }}</div>
-            </div>
+          <div class="gallery-overlay" style="background:linear-gradient(to top, rgba(26,20,16,0.95) 0%, rgba(26,20,16,0.6) 50%, transparent 100%);padding:2rem 1.5rem;">
+  <div style="font-family:var(--font-display);font-size:1.6rem;font-style:italic;font-weight:700;color:var(--cream);line-height:1.1;margin-bottom:0.8rem;text-shadow:0 2px 8px rgba(0,0,0,0.5);">
+    {{ opera.data.title }}
+  </div>
+  {% if opera.data.autore %}
+    <div style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);text-shadow:0 1px 4px rgba(0,0,0,0.8);">
+      {{ opera.data.autore }}
+    </div>
+  {% endif %}
+</div>
           </a>
         {% endfor %}
       {% else %}
@@ -420,7 +464,7 @@ title: Home
 <section class="home-rubriche">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Rubriche</h2>
+      <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.02em;color:var(--ink);">rubriche di <em style="color:var(--rust);font-style:italic;">Limi.</em></h2>
       <a href="/rubriche/" class="section-link">Tutte le rubriche</a>
     </div>
     <div class="rubriche-list">
@@ -431,6 +475,11 @@ title: Home
             <div class="rubrica-name">Rubrica fissa</div>
             <div class="rubrica-title">{{ rubrica.data.title }}</div>
             <div class="rubrica-desc">{{ rubrica.data.descrizione }}</div>
+{% if rubrica.data.autore %}
+  <div style="font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--rust);margin-top:1rem;padding-top:0.8rem;border-top:1px solid rgba(26,20,16,0.1);">
+    {{ rubrica.data.autore }}
+  </div>
+{% endif %}
           </a>
         {% endfor %}
       {% else %}

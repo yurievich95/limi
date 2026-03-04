@@ -1,0 +1,7 @@
+---
+title: Titolo dell'opera
+numero: "5"
+tipo: Illustrazione
+image: "/images/uploads/galleria01.jpg"
+didascalia: Breve descrizione dell'opera (opzionale)
+---

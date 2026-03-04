@@ -1,9 +1,3 @@
-# ============================================
-# CONFIG.YML — USO LOCALE
-# Usare per test in locale con npm start
-# Prima di fare push, sostituire con config-produzione.yml
-# ============================================
-
 backend:
   name: git-gateway
 local_backend: true
@@ -12,7 +6,6 @@ media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-
   - name: "articoli"
     label: "📝 Articoli"
     folder: "_articoli"
@@ -22,14 +15,12 @@ collections:
       - { label: "Titolo", name: "title", widget: "string" }
       - { label: "Numero", name: "numero", widget: "string", hint: "Es: 5" }
       - { label: "Tema del numero", name: "tema", widget: "string", hint: "Es: Al Bar" }
-      - { label: "Categoria", name: "categoria", widget: "select",
-          options: ["Prosa", "Poesia", "Saggio", "Rubrica"] }
-      - { label: "Rubrica (solo se categoria = Rubrica)", name: "rubrica", widget: "string", required: false,
-          hint: "Es: In Limine" }
+      - { label: "Categoria", name: "categoria", widget: "select", options: ["Prosa", "Poesia", "Saggio", "Rubrica"] }
+      - { label: "Rubrica", name: "rubrica", widget: "string", required: false }
       - { label: "Immagine di copertina", name: "immagine", widget: "image", required: false }
-      - { label: "Estratto / Incipit", name: "excerpt", widget: "text", required: false,
-          hint: "Breve testo di anteprima (2-3 righe)" }
-      - { label: "Testo dell'articolo", name: "body", widget: "markdown" }
+      - { label: "Estratto", name: "excerpt", widget: "text", required: false }
+      - { label: "Autore", name: "autore", widget: "string", required: false, hint: "Nome e cognome dell'autore" }
+      - { label: "Testo", name: "body", widget: "markdown" }
       - { label: "Layout", name: "layout", widget: "hidden", default: "articolo.njk" }
 
   - name: "galleria"
@@ -39,26 +30,26 @@ collections:
     slug: "{{numero}}-{{slug}}"
     fields:
       - { label: "Titolo opera", name: "title", widget: "string" }
+      - { label: "Autore", name: "autore", widget: "string", required: false }
       - { label: "Numero", name: "numero", widget: "string", hint: "Es: 5" }
-      - { label: "Tipo", name: "tipo", widget: "select",
-          options: ["Illustrazione", "Fotografia", "Opera"] }
+      - { label: "Tipo", name: "tipo", widget: "select", options: ["Illustrazione", "Fotografia", "Opera"] }
       - { label: "Immagine", name: "image", widget: "image" }
       - { label: "Didascalia", name: "didascalia", widget: "string", required: false }
+
 
   - name: "numeri"
     label: "📖 Numeri"
     folder: "_numeri"
     create: true
-    slug: "{{numero}}-{{slug}}"
     fields:
-      - { label: "Titolo (es: N°06)", name: "title", widget: "string" }
+      - { label: "Titolo", name: "title", widget: "string" }
       - { label: "Numero progressivo", name: "numero", widget: "number" }
-      - { label: "Slug URL (es: 06-titolo)", name: "slug", widget: "string" }
+      - { label: "Slug URL", name: "slug", widget: "string", hint: "Es: 06-titolo" }
       - { label: "Tema", name: "tema", widget: "string" }
       - { label: "Anno", name: "anno", widget: "string" }
-      - { label: "Descrizione breve", name: "descrizione", widget: "text" }
-      - { label: "Link PDF (opzionale)", name: "pdf", widget: "string", required: false }
-      - { label: "Copertina (opzionale)", name: "copertina", widget: "image", required: false }
+      - { label: "Descrizione", name: "descrizione", widget: "text" }
+      - { label: "Link PDF", name: "pdf", widget: "string", required: false }
+      - { label: "Copertina", name: "copertina", widget: "image", required: false }
 
   - name: "rubriche"
     label: "📌 Rubriche"
@@ -67,6 +58,7 @@ collections:
     fields:
       - { label: "Nome rubrica", name: "title", widget: "string" }
       - { label: "Descrizione", name: "descrizione", widget: "text" }
+      - { label: "Autore", name: "autore", widget: "string", required: false }
 
   - name: "autori"
     label: "👤 Autori"
@@ -74,10 +66,24 @@ collections:
     create: true
     fields:
       - { label: "Nome completo", name: "title", widget: "string" }
-      - { label: "Tipo", name: "tipo", widget: "select",
-          options: ["Scrittore", "Illustratore", "Fotografo", "Poeta", "Redattore"] }
-      - { label: "Numeri a cui ha partecipato", name: "numeri", widget: "string",
-          hint: "Es: 01, 03, 05" }
-      - { label: "Bio breve", name: "bio", widget: "text", required: false }
+      - { label: "Tipo", name: "tipo", widget: "select", options: ["Scrittore", "Illustratore", "Fotografo", "Poeta", "Redattore"] }
+      - { label: "Numeri", name: "numeri", widget: "string", hint: "Es: 01, 03, 05" }
+      - { label: "Bio", name: "bio", widget: "text", required: false }
       - { label: "Instagram", name: "instagram", widget: "string", required: false }
       - { label: "Layout", name: "layout", widget: "hidden", default: "base.njk" }
+
+  - name: "impostazioni"
+    label: "⚙️ Impostazioni"
+    files:
+      - name: "marquee"
+        label: "Marquee — testo scorrente"
+        file: "_data/marquee.json"
+        fields:
+          - label: "Voci del marquee"
+            name: "voci"
+            widget: "list"
+            hint: "Ogni voce appare nella banda scorrente in homepage"
+            field: 
+                labe: "Voce" 
+                name: "voce"
+                widget: "string"

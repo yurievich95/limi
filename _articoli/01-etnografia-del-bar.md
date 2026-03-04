@@ -3,8 +3,10 @@ title: Etnografia del bar
 numero: 5
 tema: Al Pub
 categoria: Saggio
+rubrica: ""
 immagine: /images/uploads/bar.jpg
 excerpt: Questo è un estratto di prova dell'articolo.
+autore: Anna Bonarelli
 layout: articolo.njk
 ---
 
